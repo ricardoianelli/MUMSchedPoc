@@ -1,6 +1,7 @@
 package com.example.mumschedpoc.entities;
 
 import com.example.mumschedpoc.entities.enums.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,18 +15,22 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String userName;
+    private String email;
+
+    @Column(name="user_role")
+    private Integer userRole;
+
+    @JsonIgnore
     private String password;
-    private UserRole userRole;
 
     public User() {
     }
 
-    public User(Long id, String name, UserRole userRole, String userName, String password) {
+    public User(Long id, String name, UserRole userRole, String email, String password) {
         this.id = id;
         this.name = name;
-        this.userRole = userRole;
-        this.userName = userName;
+        this.userRole = userRole.getCode();
+        this.email = email;
         this.password = password;
     }
 
@@ -45,12 +50,12 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -62,11 +67,11 @@ public class User implements Serializable {
     }
 
     public UserRole getUserRole() {
-        return userRole;
+        return UserRole.valueOf(userRole);
     }
 
     public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
+        this.userRole = userRole.getCode();
     }
 
     @Override
