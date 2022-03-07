@@ -1,6 +1,8 @@
 package com.example.mumschedpoc.resources.exceptions;
 
 import com.example.mumschedpoc.services.exceptions.DatabaseException;
+import com.example.mumschedpoc.services.exceptions.InvalidEmailException;
+import com.example.mumschedpoc.services.exceptions.InvalidPasswordException;
 import com.example.mumschedpoc.services.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,24 @@ public class ResourceExceptionHandler {
     {
         String errorMsg = "Database error";
         HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError error = new StandardError(Instant.now(), status.value(), errorMsg, ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(InvalidEmailException.class)
+    public ResponseEntity<StandardError> invalidEmail(InvalidEmailException ex, HttpServletRequest request)
+    {
+        String errorMsg = "User not found";
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError error = new StandardError(Instant.now(), status.value(), errorMsg, ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<StandardError> wrongPassword(InvalidPasswordException ex, HttpServletRequest request)
+    {
+        String errorMsg = "Wrong password";
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
         StandardError error = new StandardError(Instant.now(), status.value(), errorMsg, ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(error);
     }
