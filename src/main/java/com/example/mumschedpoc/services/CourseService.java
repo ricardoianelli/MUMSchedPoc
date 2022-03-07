@@ -1,12 +1,12 @@
 package com.example.mumschedpoc.services;
 
 import com.example.mumschedpoc.entities.Course;
-import com.example.mumschedpoc.repositories.CourseRepository;
+import com.example.mumschedpoc.repositories.ICourseRepository;
 import com.example.mumschedpoc.resources.dto.CourseCreationRequest;
 import com.example.mumschedpoc.resources.dto.UpdateCourseRequest;
 import com.example.mumschedpoc.services.exceptions.DatabaseException;
-import com.example.mumschedpoc.services.exceptions.DuplicateResourceException;
 import com.example.mumschedpoc.services.exceptions.ResourceNotFoundException;
+import com.example.mumschedpoc.services.interfaces.ICourseService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
@@ -17,11 +17,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CourseService {
+public class CourseService implements ICourseService {
 
-    private final CourseRepository repository;
+    private final ICourseRepository repository;
 
-    public CourseService(CourseRepository repository) {
+    public CourseService(ICourseRepository repository) {
         this.repository = repository;
     }
 

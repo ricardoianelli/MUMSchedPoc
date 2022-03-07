@@ -3,7 +3,7 @@ package com.example.mumschedpoc.resources;
 import com.example.mumschedpoc.entities.Course;
 import com.example.mumschedpoc.resources.dto.UpdateCourseRequest;
 import com.example.mumschedpoc.resources.dto.CourseCreationRequest;
-import com.example.mumschedpoc.services.CourseService;
+import com.example.mumschedpoc.services.interfaces.ICourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,9 +21,9 @@ import java.util.List;
 @Tag(name="Courses")
 public class CourseResource {
 
-    private final CourseService service;
+    private final ICourseService service;
 
-    public CourseResource(CourseService service) {
+    public CourseResource(ICourseService service) {
         this.service = service;
     }
 

@@ -3,7 +3,7 @@ package com.example.mumschedpoc.resources;
 import com.example.mumschedpoc.entities.User;
 import com.example.mumschedpoc.resources.dto.LoginRequest;
 import com.example.mumschedpoc.resources.exceptions.StandardError;
-import com.example.mumschedpoc.services.LoginService;
+import com.example.mumschedpoc.services.interfaces.ILoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginResource {
 
     @Autowired
-    private final LoginService service;
+    private final ILoginService service;
 
-    public LoginResource(LoginService service) {
+    public LoginResource(ILoginService service) {
         this.service = service;
     }
 

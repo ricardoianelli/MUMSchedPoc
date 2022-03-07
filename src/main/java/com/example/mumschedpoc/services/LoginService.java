@@ -4,17 +4,19 @@ import com.example.mumschedpoc.entities.User;
 import com.example.mumschedpoc.resources.dto.LoginRequest;
 import com.example.mumschedpoc.services.exceptions.InvalidEmailException;
 import com.example.mumschedpoc.services.exceptions.InvalidPasswordException;
+import com.example.mumschedpoc.services.interfaces.ILoginService;
+import com.example.mumschedpoc.services.interfaces.IUserService;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 
 @Service
-public class LoginService {
+public class LoginService implements ILoginService {
 
-    private final UserService userService;
+    private final IUserService userService;
 
-    public LoginService(UserService userService) {
+    public LoginService(IUserService userService) {
         this.userService = userService;
     }
 

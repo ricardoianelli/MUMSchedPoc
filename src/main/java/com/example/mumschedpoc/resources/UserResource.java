@@ -3,7 +3,7 @@ package com.example.mumschedpoc.resources;
 import com.example.mumschedpoc.entities.User;
 import com.example.mumschedpoc.resources.dto.UpdateUserRequest;
 import com.example.mumschedpoc.resources.dto.UserCreationRequest;
-import com.example.mumschedpoc.services.UserService;
+import com.example.mumschedpoc.services.interfaces.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,9 +21,9 @@ import java.util.List;
 @Tag(name="User")
 public class UserResource {
 
-    private final UserService service;
+    private final IUserService service;
 
-    public UserResource(UserService service) {
+    public UserResource(IUserService service) {
         this.service = service;
     }
 

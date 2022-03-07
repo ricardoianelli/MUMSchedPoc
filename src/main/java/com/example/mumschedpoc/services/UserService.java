@@ -2,12 +2,13 @@ package com.example.mumschedpoc.services;
 
 import com.example.mumschedpoc.entities.User;
 import com.example.mumschedpoc.entities.enums.UserRole;
-import com.example.mumschedpoc.repositories.UserRepository;
+import com.example.mumschedpoc.repositories.IUserRepository;
 import com.example.mumschedpoc.resources.dto.UpdateUserRequest;
 import com.example.mumschedpoc.resources.dto.UserCreationRequest;
 import com.example.mumschedpoc.services.exceptions.DatabaseException;
 import com.example.mumschedpoc.services.exceptions.InvalidEmailException;
 import com.example.mumschedpoc.services.exceptions.ResourceNotFoundException;
+import com.example.mumschedpoc.services.interfaces.IUserService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
@@ -18,11 +19,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements IUserService {
 
-    private final UserRepository repository;
+    private final IUserRepository repository;
 
-    public UserService(UserRepository repository) {
+    public UserService(IUserRepository repository) {
         this.repository = repository;
     }
 
