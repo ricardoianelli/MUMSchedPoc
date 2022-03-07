@@ -1,9 +1,6 @@
 package com.example.mumschedpoc.resources.exceptions;
 
-import com.example.mumschedpoc.services.exceptions.DatabaseException;
-import com.example.mumschedpoc.services.exceptions.InvalidEmailException;
-import com.example.mumschedpoc.services.exceptions.InvalidPasswordException;
-import com.example.mumschedpoc.services.exceptions.ResourceNotFoundException;
+import com.example.mumschedpoc.services.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -47,6 +44,24 @@ public class ResourceExceptionHandler {
     {
         String errorMsg = "Wrong password";
         HttpStatus status = HttpStatus.UNAUTHORIZED;
+        StandardError error = new StandardError(Instant.now(), status.value(), errorMsg, ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<StandardError> duplicateResource(DuplicateResourceException ex, HttpServletRequest request)
+    {
+        String errorMsg = "Duplicate resource";
+        HttpStatus status = HttpStatus.CONFLICT;
+        StandardError error = new StandardError(Instant.now(), status.value(), errorMsg, ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<StandardError> illegalArgument(IllegalArgumentException ex, HttpServletRequest request)
+    {
+        String errorMsg = ex.getMessage();
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError error = new StandardError(Instant.now(), status.value(), errorMsg, ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(error);
     }
