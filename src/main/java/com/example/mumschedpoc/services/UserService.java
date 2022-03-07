@@ -6,6 +6,7 @@ import com.example.mumschedpoc.repositories.UserRepository;
 import com.example.mumschedpoc.resources.dto.UpdateUserRequest;
 import com.example.mumschedpoc.resources.dto.UserCreationRequest;
 import com.example.mumschedpoc.services.exceptions.DatabaseException;
+import com.example.mumschedpoc.services.exceptions.InvalidEmailException;
 import com.example.mumschedpoc.services.exceptions.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -32,6 +33,11 @@ public class UserService {
     public User findById(Long id) {
         Optional<User> user = repository.findById(id);
         return user.orElseThrow(() -> new ResourceNotFoundException(id));
+    }
+
+    public User findByEmail(String email) {
+        Optional<User> user = repository.findByEmail(email);
+        return user.orElseThrow(() -> new InvalidEmailException(email));
     }
 
     public User insert(UserCreationRequest userRequest) {
@@ -68,6 +74,5 @@ public class UserService {
         if (updateUserRequest.email != null) user.setEmail(updateUserRequest.email);
         if (updateUserRequest.userRoleId != 0)
             user.setUserRole(UserRole.valueOf(updateUserRequest.userRoleId));
-
     }
 }
