@@ -1,0 +1,22 @@
+package com.example.mumschedpoc.services.interfaces;
+
+import com.example.mumschedpoc.entities.User;
+import com.example.mumschedpoc.resources.dto.UpdateUserRequest;
+import com.example.mumschedpoc.resources.dto.UserCreationRequest;
+
+import java.util.List;
+
+public interface IUserService {
+    List<User> findAll();
+
+    User findById(Long id);
+
+    User insert(UserCreationRequest userRequest);
+
+    void delete(Long id);
+
+    User update(Long id, UpdateUserRequest updateUserRequest);
+
+    User findByEmail(String email);
+
+}
