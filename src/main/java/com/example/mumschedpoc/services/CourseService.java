@@ -64,7 +64,7 @@ public class CourseService {
 
     private void updateCourse(Course course, UpdateCourseRequest updateCourseRequest) {
         if (updateCourseRequest.code != null)
-            course.setName(updateCourseRequest.code);
+            course.setCode(updateCourseRequest.code);
         if (updateCourseRequest.name != null)
             course.setName(updateCourseRequest.name);
     }
