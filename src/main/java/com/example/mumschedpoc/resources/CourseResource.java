@@ -51,9 +51,6 @@ public class CourseResource {
     @Operation(summary="Add course", responses = {
             @ApiResponse(description = "Course created", responseCode = "201",
                     content = @Content),
-
-            @ApiResponse(description = "Course already exists", responseCode = "409",
-                    content = @Content)
     })
     public ResponseEntity<Course> insert(@RequestBody CourseCreationRequest courseRequest) {
         Course responseCourse = service.insert(courseRequest);

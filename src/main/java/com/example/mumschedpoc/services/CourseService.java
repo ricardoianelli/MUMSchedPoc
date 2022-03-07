@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Service
 public class CourseService {
-    
+
     private final CourseRepository repository;
 
     public CourseService(CourseRepository repository) {
@@ -35,15 +35,8 @@ public class CourseService {
     }
 
     public Course insert(CourseCreationRequest courseRequest) {
-        try {
-            findById(courseRequest.id);
-        }
-        catch (ResourceNotFoundException ex)
-        {
-            Course course = new Course(courseRequest.id, courseRequest.name);
-            return repository.save(course);
-        }
-        throw new DuplicateResourceException(courseRequest.id);
+        Course course = new Course(null, courseRequest.code, courseRequest.name);
+        return repository.save(course);
     }
 
     public void delete(Integer id) {
@@ -70,6 +63,8 @@ public class CourseService {
     }
 
     private void updateCourse(Course course, UpdateCourseRequest updateCourseRequest) {
+        if (updateCourseRequest.code != null)
+            course.setName(updateCourseRequest.code);
         if (updateCourseRequest.name != null)
             course.setName(updateCourseRequest.name);
     }
