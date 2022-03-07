@@ -35,7 +35,7 @@ public class UserResource {
     }
 
     @GetMapping(value = "/{id}")
-    @Operation(summary="Get user", responses = {
+    @Operation(summary="Get User", responses = {
             @ApiResponse(description = "User found", responseCode = "200",
             content = @Content(schema = @Schema(implementation = User.class))),
 
@@ -48,7 +48,10 @@ public class UserResource {
     }
 
     @PostMapping
-    @Operation(summary="Add user")
+    @Operation(summary="Add User", responses = {
+            @ApiResponse(description = "User created", responseCode = "201",
+                    content = @Content),
+    })
     public ResponseEntity<User> insert(@RequestBody UserCreationRequest userRequest) {
         User responseUser = service.insert(userRequest);
 
@@ -59,7 +62,7 @@ public class UserResource {
     }
 
     @DeleteMapping(value = "/{id}")
-    @Operation(summary="Delete user", responses = {
+    @Operation(summary="Delete User", responses = {
             @ApiResponse(description = "User deleted", responseCode = "200",
                     content = @Content),
 
@@ -68,11 +71,11 @@ public class UserResource {
     })
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping(value = "/{id}")
-    @Operation(summary="Update user", responses = {
+    @Operation(summary="Update User", responses = {
             @ApiResponse(description = "User updated", responseCode = "200",
                     content = @Content(schema = @Schema(implementation = User.class))),
 
