@@ -15,9 +15,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.containsString;
 
 @WebMvcTest(LoginController.class)
 class LoginControllerTests {
@@ -56,6 +59,7 @@ class LoginControllerTests {
     @Test
     void login_givenNotExistentUsername_ShouldReturn404() throws Exception {
         //Arrange
+        String expectedErrorMsg = "User not found";
         when(service.login(any(LoginRequest.class))).thenThrow(new InvalidEmailException("email"));
 
         //Act
@@ -64,7 +68,7 @@ class LoginControllerTests {
                         .content(gson.toJson(new LoginRequest()))
                         .accept(MediaType.APPLICATION_JSON))
         //Assert
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(containsString(expectedErrorMsg)));
     }
-
 }
