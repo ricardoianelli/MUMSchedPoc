@@ -14,5 +14,8 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: maven
+          database_url: ${{secrets.DATABASE_URL}}
+          jwt_expiration: ${{secrets.JWT_EXPIRATION}}
+          jwt_secret: ${{secrets.JWT_SECRET}}
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots verify
