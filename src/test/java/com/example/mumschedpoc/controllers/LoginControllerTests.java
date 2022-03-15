@@ -4,6 +4,7 @@ import com.example.mumschedpoc.controllers.dto.LoginRequest;
 import com.example.mumschedpoc.entities.User;
 import com.example.mumschedpoc.entities.enums.UserRole;
 import com.example.mumschedpoc.services.exceptions.InvalidEmailException;
+import com.example.mumschedpoc.services.exceptions.InvalidPasswordException;
 import com.example.mumschedpoc.services.interfaces.ILoginService;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,6 +70,22 @@ class LoginControllerTests {
                         .accept(MediaType.APPLICATION_JSON))
         //Assert
                 .andExpect(status().isNotFound())
+                .andExpect(content().string(containsString(expectedErrorMsg)));
+    }
+
+    @Test
+    void login_givenWrongPassword_ShouldReturn401() throws Exception {
+        //Arrange
+        String expectedErrorMsg = "Wrong password";
+        when(service.login(any(LoginRequest.class))).thenThrow(new InvalidPasswordException("email"));
+
+        //Act
+        mockMvc.perform(post("/api/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(new LoginRequest()))
+                        .accept(MediaType.APPLICATION_JSON))
+                //Assert
+                .andExpect(status().isUnauthorized())
                 .andExpect(content().string(containsString(expectedErrorMsg)));
     }
 }
