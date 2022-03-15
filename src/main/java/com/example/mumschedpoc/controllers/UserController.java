@@ -1,8 +1,8 @@
-package com.example.mumschedpoc.resources;
+package com.example.mumschedpoc.controllers;
 
 import com.example.mumschedpoc.entities.User;
-import com.example.mumschedpoc.resources.dto.UpdateUserRequest;
-import com.example.mumschedpoc.resources.dto.UserCreationRequest;
+import com.example.mumschedpoc.controllers.dto.UpdateUserRequest;
+import com.example.mumschedpoc.controllers.dto.UserCreationRequest;
 import com.example.mumschedpoc.services.interfaces.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,11 +19,11 @@ import java.util.List;
 @RestController
 @RequestMapping("api/users")
 @Tag(name="User")
-public class UserResource {
+public class UserController {
 
     private final IUserService service;
 
-    public UserResource(IUserService service) {
+    public UserController(IUserService service) {
         this.service = service;
     }
 

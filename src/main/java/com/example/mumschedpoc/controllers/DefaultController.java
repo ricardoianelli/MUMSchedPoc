@@ -1,4 +1,4 @@
-package com.example.mumschedpoc.resources;
+package com.example.mumschedpoc.controllers;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @RestController
 @Hidden
-public class DefaultResource implements ErrorController {
+public class DefaultController implements ErrorController {
     @RequestMapping(value = "/")
     public void redirect(HttpServletResponse response) throws IOException {
         response.sendRedirect("/swagger-ui.html");

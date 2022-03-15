@@ -1,4 +1,4 @@
-package com.example.mumschedpoc.resources.exceptions;
+package com.example.mumschedpoc.controllers.exceptions;
 
 import com.example.mumschedpoc.services.exceptions.*;
 import org.springframework.http.HttpStatus;

@@ -1,8 +1,8 @@
 package com.example.mumschedpoc.services.interfaces;
 
 import com.example.mumschedpoc.entities.Course;
-import com.example.mumschedpoc.resources.dto.CourseCreationRequest;
-import com.example.mumschedpoc.resources.dto.UpdateCourseRequest;
+import com.example.mumschedpoc.controllers.dto.CourseCreationRequest;
+import com.example.mumschedpoc.controllers.dto.UpdateCourseRequest;
 
 import java.util.List;
 

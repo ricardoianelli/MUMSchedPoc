@@ -1,4 +1,4 @@
-package com.example.mumschedpoc.resources.dto;
+package com.example.mumschedpoc.controllers.dto;
 
 public class CourseCreationRequest {
     public String code;

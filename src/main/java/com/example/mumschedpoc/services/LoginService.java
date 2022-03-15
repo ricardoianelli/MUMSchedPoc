@@ -1,7 +1,7 @@
 package com.example.mumschedpoc.services;
 
 import com.example.mumschedpoc.entities.User;
-import com.example.mumschedpoc.resources.dto.LoginRequest;
+import com.example.mumschedpoc.controllers.dto.LoginRequest;
 import com.example.mumschedpoc.services.exceptions.InvalidEmailException;
 import com.example.mumschedpoc.services.exceptions.InvalidPasswordException;
 import com.example.mumschedpoc.services.interfaces.ILoginService;

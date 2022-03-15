@@ -1,8 +1,8 @@
 package com.example.mumschedpoc.services.interfaces;
 
 import com.example.mumschedpoc.entities.User;
-import com.example.mumschedpoc.resources.dto.UpdateUserRequest;
-import com.example.mumschedpoc.resources.dto.UserCreationRequest;
+import com.example.mumschedpoc.controllers.dto.UpdateUserRequest;
+import com.example.mumschedpoc.controllers.dto.UserCreationRequest;
 
 import java.util.List;
 

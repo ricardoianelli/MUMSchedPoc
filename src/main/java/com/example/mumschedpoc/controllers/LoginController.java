@@ -1,8 +1,8 @@
-package com.example.mumschedpoc.resources;
+package com.example.mumschedpoc.controllers;
 
 import com.example.mumschedpoc.entities.User;
-import com.example.mumschedpoc.resources.dto.LoginRequest;
-import com.example.mumschedpoc.resources.exceptions.StandardError;
+import com.example.mumschedpoc.controllers.dto.LoginRequest;
+import com.example.mumschedpoc.controllers.exceptions.StandardError;
 import com.example.mumschedpoc.services.interfaces.ILoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/login")
 @Tag(name="Login")
-public class LoginResource {
+public class LoginController {
 
     @Autowired
     private final ILoginService service;
 
-    public LoginResource(ILoginService service) {
+    public LoginController(ILoginService service) {
         this.service = service;
     }
 

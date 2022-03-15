@@ -1,8 +1,8 @@
-package com.example.mumschedpoc.resources;
+package com.example.mumschedpoc.controllers;
 
 import com.example.mumschedpoc.entities.Course;
-import com.example.mumschedpoc.resources.dto.UpdateCourseRequest;
-import com.example.mumschedpoc.resources.dto.CourseCreationRequest;
+import com.example.mumschedpoc.controllers.dto.UpdateCourseRequest;
+import com.example.mumschedpoc.controllers.dto.CourseCreationRequest;
 import com.example.mumschedpoc.services.interfaces.ICourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,11 +19,11 @@ import java.util.List;
 @RestController
 @RequestMapping("api/courses")
 @Tag(name="Courses")
-public class CourseResource {
+public class CourseController {
 
     private final ICourseService service;
 
-    public CourseResource(ICourseService service) {
+    public CourseController(ICourseService service) {
         this.service = service;
     }
 
