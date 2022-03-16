@@ -9,13 +9,13 @@ import java.util.List;
 public interface IUserService {
     List<User> findAll();
 
-    User findById(Long id);
+    User findById(Integer id);
 
     User insert(UserCreationRequest userRequest);
 
-    void delete(Long id);
+    void delete(Integer id);
 
-    User update(Long id, UpdateUserRequest updateUserRequest);
+    User update(Integer id, UpdateUserRequest updateUserRequest);
 
     User findByEmail(String email);
 

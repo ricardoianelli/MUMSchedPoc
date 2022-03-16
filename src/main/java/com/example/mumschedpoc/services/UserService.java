@@ -35,7 +35,7 @@ public class UserService implements IUserService {
         return repository.findAll();
     }
 
-    public User findById(Long id) {
+    public User findById(Integer id) {
         Optional<User> user = repository.findById(id);
         return user.orElseThrow(() -> new ResourceNotFoundException(id));
     }
@@ -51,7 +51,7 @@ public class UserService implements IUserService {
         return repository.save(user);
     }
 
-    public void delete(Long id) {
+    public void delete(Integer id) {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException ex) {
@@ -61,7 +61,7 @@ public class UserService implements IUserService {
         }
     }
 
-    public User update(Long id, UpdateUserRequest updateUserRequest) {
+    public User update(Integer id, UpdateUserRequest updateUserRequest) {
         try {
             User user = findById(id);
             updateUser(user, updateUserRequest);

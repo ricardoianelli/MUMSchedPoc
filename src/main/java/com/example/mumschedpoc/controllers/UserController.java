@@ -42,7 +42,7 @@ public class UserController {
             @ApiResponse(description = "User not found", responseCode = "404",
                     content = @Content)
     })
-    public ResponseEntity<User> findById(@PathVariable Long id) {
+    public ResponseEntity<User> findById(@PathVariable Integer id) {
         User user = service.findById(id);
         return ResponseEntity.ok().body(user);
     }
@@ -69,7 +69,7 @@ public class UserController {
             @ApiResponse(description = "User not found", responseCode = "404",
                     content = @Content)
     })
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.ok().build();
     }
@@ -82,7 +82,7 @@ public class UserController {
             @ApiResponse(description = "User not found", responseCode = "404",
                     content = @Content)
     })
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest) {
+    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody UpdateUserRequest updateUserRequest) {
         User user = service.update(id, updateUserRequest);
         return ResponseEntity.ok(user);
     }
