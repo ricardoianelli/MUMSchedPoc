@@ -8,14 +8,14 @@ import java.util.List;
 
 
 public interface ICourseService {
-    List<Course> findAll();
+    List<CourseDTO> findAll();
 
-    Course findById(Integer id);
+    CourseDTO findById(Integer id);
 
-    Course insert(NewCourseDTO courseRequest);
+    CourseDTO insert(NewCourseDTO courseRequest);
 
     void delete(Integer id);
 
-    Course update(Integer id, CourseDTO updateCourseRequest);
+    CourseDTO update(Integer id, CourseDTO updateCourseRequest);
 
 }

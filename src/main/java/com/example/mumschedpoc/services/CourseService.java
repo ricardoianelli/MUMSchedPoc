@@ -1,9 +1,9 @@
 package com.example.mumschedpoc.services;
 
+import com.example.mumschedpoc.dto.CourseDTO;
+import com.example.mumschedpoc.dto.NewCourseDTO;
 import com.example.mumschedpoc.entities.Course;
 import com.example.mumschedpoc.repositories.ICourseRepository;
-import com.example.mumschedpoc.dto.NewCourseDTO;
-import com.example.mumschedpoc.dto.CourseDTO;
 import com.example.mumschedpoc.services.exceptions.DatabaseException;
 import com.example.mumschedpoc.services.exceptions.ResourceNotFoundException;
 import com.example.mumschedpoc.services.interfaces.ICourseService;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService implements ICourseService {
@@ -25,18 +25,20 @@ public class CourseService implements ICourseService {
         this.repository = repository;
     }
 
-    public List<Course> findAll() {
-        return repository.findAll();
+    public List<CourseDTO> findAll() {
+        List<Course> courses = repository.findAll();
+        return courses.stream().map(CourseDTO::new).collect(Collectors.toList());
     }
 
-    public Course findById(Integer id) {
-        Optional<Course> course = repository.findById(id);
-        return course.orElseThrow(() -> new ResourceNotFoundException(id));
+    public CourseDTO findById(Integer id) {
+        Course course = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        return new CourseDTO(course);
     }
 
-    public Course insert(NewCourseDTO courseRequest) {
-        Course course = new Course(null, courseRequest.code, courseRequest.name);
-        return repository.save(course);
+    public CourseDTO insert(NewCourseDTO courseRequest) {
+        Course course = new Course(null, courseRequest.code, courseRequest.name, courseRequest.description);
+        course = repository.save(course);
+        return new CourseDTO(course);
     }
 
     public void delete(Integer id) {
@@ -49,11 +51,12 @@ public class CourseService implements ICourseService {
         }
     }
 
-    public Course update(Integer id, CourseDTO updateCourseRequest) {
+    public CourseDTO update(Integer id, CourseDTO updateCourseRequest) {
         try {
-            Course course = findById(id);
+            Course course = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
             updateCourse(course, updateCourseRequest);
-            return repository.save(course);
+            course = repository.save(course);
+            return new CourseDTO(course);
         } catch (EntityNotFoundException ex) {
             throw new ResourceNotFoundException(id);
         } catch (JpaObjectRetrievalFailureException ex) {
@@ -67,5 +70,13 @@ public class CourseService implements ICourseService {
             course.setCode(updateCourseRequest.code);
         if (updateCourseRequest.name != null)
             course.setName(updateCourseRequest.name);
+        if (updateCourseRequest.description != null)
+            course.setDescription(updateCourseRequest.description);
+        for (String preReqCode : updateCourseRequest.preRequisites) {
+            Course newPreReq = repository.findByCode(preReqCode);
+            if (!course.getPreRequisites().contains(newPreReq)) {
+                course.addPreRequisite(newPreReq);
+            }
+        }
     }
 }
