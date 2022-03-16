@@ -1,8 +1,8 @@
 package com.example.mumschedpoc.controllers;
 
 import com.example.mumschedpoc.entities.Course;
-import com.example.mumschedpoc.controllers.dto.UpdateCourseRequest;
-import com.example.mumschedpoc.controllers.dto.CourseCreationRequest;
+import com.example.mumschedpoc.dto.UpdateCourseRequest;
+import com.example.mumschedpoc.dto.CourseCreationRequest;
 import com.example.mumschedpoc.services.interfaces.ICourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -2,8 +2,8 @@ package com.example.mumschedpoc.services;
 
 import com.example.mumschedpoc.entities.Course;
 import com.example.mumschedpoc.repositories.ICourseRepository;
-import com.example.mumschedpoc.controllers.dto.CourseCreationRequest;
-import com.example.mumschedpoc.controllers.dto.UpdateCourseRequest;
+import com.example.mumschedpoc.dto.CourseCreationRequest;
+import com.example.mumschedpoc.dto.UpdateCourseRequest;
 import com.example.mumschedpoc.services.exceptions.DatabaseException;
 import com.example.mumschedpoc.services.exceptions.ResourceNotFoundException;
 import com.example.mumschedpoc.services.interfaces.ICourseService;
