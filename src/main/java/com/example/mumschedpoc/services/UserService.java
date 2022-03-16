@@ -5,6 +5,8 @@ import com.example.mumschedpoc.entities.enums.UserRole;
 import com.example.mumschedpoc.repositories.IUserRepository;
 import com.example.mumschedpoc.dto.UpdateUserRequest;
 import com.example.mumschedpoc.dto.UserCreationRequest;
+import com.example.mumschedpoc.security.SpringSecurityUser;
+import com.example.mumschedpoc.services.exceptions.AuthorizationException;
 import com.example.mumschedpoc.services.exceptions.DatabaseException;
 import com.example.mumschedpoc.services.exceptions.InvalidEmailException;
 import com.example.mumschedpoc.services.exceptions.ResourceNotFoundException;
@@ -12,6 +14,7 @@ import com.example.mumschedpoc.services.interfaces.IUserService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,11 +34,26 @@ public class UserService implements IUserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public static SpringSecurityUser getAuthenticatedUser() {
+        try {
+            return (SpringSecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
     public List<User> findAll() {
         return repository.findAll();
     }
 
     public User findById(Integer id) {
+
+        SpringSecurityUser authenticatedUser = UserService.getAuthenticatedUser();
+        if (authenticatedUser==null || !authenticatedUser.hasRole(UserRole.ADMIN) && !id.equals(authenticatedUser.getId())) {
+            throw new AuthorizationException("Access Denied");
+        }
+
         Optional<User> user = repository.findById(id);
         return user.orElseThrow(() -> new ResourceNotFoundException(id));
     }

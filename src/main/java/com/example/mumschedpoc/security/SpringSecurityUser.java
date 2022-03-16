@@ -67,6 +67,10 @@ public class SpringSecurityUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public boolean hasRole(UserRole role) {
+        return getAuthorities().contains(new SimpleGrantedAuthority(role.getDescription()));
+    }
 }
 
 
