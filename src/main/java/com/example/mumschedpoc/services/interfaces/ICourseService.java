@@ -1,8 +1,8 @@
 package com.example.mumschedpoc.services.interfaces;
 
 import com.example.mumschedpoc.entities.Course;
-import com.example.mumschedpoc.dto.CourseCreationRequest;
-import com.example.mumschedpoc.dto.UpdateCourseRequest;
+import com.example.mumschedpoc.dto.NewCourseDTO;
+import com.example.mumschedpoc.dto.CourseDTO;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ public interface ICourseService {
 
     Course findById(Integer id);
 
-    Course insert(CourseCreationRequest courseRequest);
+    Course insert(NewCourseDTO courseRequest);
 
     void delete(Integer id);
 
-    Course update(Integer id, UpdateCourseRequest updateCourseRequest);
+    Course update(Integer id, CourseDTO updateCourseRequest);
 
 }

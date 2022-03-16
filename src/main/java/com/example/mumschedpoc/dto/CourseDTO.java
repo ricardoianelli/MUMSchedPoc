@@ -1,6 +1,6 @@
 package com.example.mumschedpoc.dto;
 
-public class UpdateCourseRequest {
+public class CourseDTO {
     public String code;
     public String name;
 }

@@ -1,8 +1,8 @@
 package com.example.mumschedpoc.controllers;
 
 import com.example.mumschedpoc.entities.User;
-import com.example.mumschedpoc.dto.UpdateUserRequest;
-import com.example.mumschedpoc.dto.UserCreationRequest;
+import com.example.mumschedpoc.dto.UserDTO;
+import com.example.mumschedpoc.dto.NewUserDTO;
 import com.example.mumschedpoc.services.interfaces.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -55,7 +55,7 @@ public class UserController {
                     content = @Content),
     })
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<User> insert(@RequestBody UserCreationRequest userRequest) {
+    public ResponseEntity<User> insert(@RequestBody NewUserDTO userRequest) {
         User responseUser = service.insert(userRequest);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -86,7 +86,7 @@ public class UserController {
             @ApiResponse(description = "User not found", responseCode = "404",
                     content = @Content)
     })
-    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody UpdateUserRequest updateUserRequest) {
+    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody UserDTO updateUserRequest) {
         User user = service.update(id, updateUserRequest);
         return ResponseEntity.ok(user);
     }

@@ -3,8 +3,8 @@ package com.example.mumschedpoc.services;
 import com.example.mumschedpoc.entities.User;
 import com.example.mumschedpoc.entities.enums.UserRole;
 import com.example.mumschedpoc.repositories.IUserRepository;
-import com.example.mumschedpoc.dto.UpdateUserRequest;
-import com.example.mumschedpoc.dto.UserCreationRequest;
+import com.example.mumschedpoc.dto.UserDTO;
+import com.example.mumschedpoc.dto.NewUserDTO;
 import com.example.mumschedpoc.security.SpringSecurityUser;
 import com.example.mumschedpoc.services.exceptions.AuthorizationException;
 import com.example.mumschedpoc.services.exceptions.DatabaseException;
@@ -63,7 +63,7 @@ public class UserService implements IUserService {
         return user.orElseThrow(() -> new InvalidEmailException(email));
     }
 
-    public User insert(UserCreationRequest userRequest) {
+    public User insert(NewUserDTO userRequest) {
         UserRole userRole = UserRole.toEnum(userRequest.userRoleId);
         User user = new User(null, userRequest.name, userRole, userRequest.email, passwordEncoder.encode(userRequest.password));
         return repository.save(user);
@@ -79,7 +79,7 @@ public class UserService implements IUserService {
         }
     }
 
-    public User update(Integer id, UpdateUserRequest updateUserRequest) {
+    public User update(Integer id, UserDTO updateUserRequest) {
         try {
             User user = findById(id);
             updateUser(user, updateUserRequest);
@@ -92,7 +92,7 @@ public class UserService implements IUserService {
         }
     }
 
-    private void updateUser(User user, UpdateUserRequest updateUserRequest) {
+    private void updateUser(User user, UserDTO updateUserRequest) {
         if (updateUserRequest.name != null) user.setName(updateUserRequest.name);
         if (updateUserRequest.email != null) user.setEmail(updateUserRequest.email);
         if (updateUserRequest.userRoleId != 0)

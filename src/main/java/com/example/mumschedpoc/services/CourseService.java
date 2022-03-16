@@ -2,8 +2,8 @@ package com.example.mumschedpoc.services;
 
 import com.example.mumschedpoc.entities.Course;
 import com.example.mumschedpoc.repositories.ICourseRepository;
-import com.example.mumschedpoc.dto.CourseCreationRequest;
-import com.example.mumschedpoc.dto.UpdateCourseRequest;
+import com.example.mumschedpoc.dto.NewCourseDTO;
+import com.example.mumschedpoc.dto.CourseDTO;
 import com.example.mumschedpoc.services.exceptions.DatabaseException;
 import com.example.mumschedpoc.services.exceptions.ResourceNotFoundException;
 import com.example.mumschedpoc.services.interfaces.ICourseService;
@@ -34,7 +34,7 @@ public class CourseService implements ICourseService {
         return course.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
-    public Course insert(CourseCreationRequest courseRequest) {
+    public Course insert(NewCourseDTO courseRequest) {
         Course course = new Course(null, courseRequest.code, courseRequest.name);
         return repository.save(course);
     }
@@ -49,7 +49,7 @@ public class CourseService implements ICourseService {
         }
     }
 
-    public Course update(Integer id, UpdateCourseRequest updateCourseRequest) {
+    public Course update(Integer id, CourseDTO updateCourseRequest) {
         try {
             Course course = findById(id);
             updateCourse(course, updateCourseRequest);
@@ -62,7 +62,7 @@ public class CourseService implements ICourseService {
         }
     }
 
-    private void updateCourse(Course course, UpdateCourseRequest updateCourseRequest) {
+    private void updateCourse(Course course, CourseDTO updateCourseRequest) {
         if (updateCourseRequest.code != null)
             course.setCode(updateCourseRequest.code);
         if (updateCourseRequest.name != null)

@@ -1,8 +1,8 @@
 package com.example.mumschedpoc.controllers;
 
 import com.example.mumschedpoc.entities.Course;
-import com.example.mumschedpoc.dto.UpdateCourseRequest;
-import com.example.mumschedpoc.dto.CourseCreationRequest;
+import com.example.mumschedpoc.dto.CourseDTO;
+import com.example.mumschedpoc.dto.NewCourseDTO;
 import com.example.mumschedpoc.services.interfaces.ICourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -54,7 +54,7 @@ public class CourseController {
                     content = @Content),
     })
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Course> insert(@RequestBody CourseCreationRequest courseRequest) {
+    public ResponseEntity<Course> insert(@RequestBody NewCourseDTO courseRequest) {
         Course responseCourse = service.insert(courseRequest);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -86,7 +86,7 @@ public class CourseController {
                     content = @Content)
     })
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Course> update(@PathVariable Integer id, @RequestBody UpdateCourseRequest updateCourseRequest) {
+    public ResponseEntity<Course> update(@PathVariable Integer id, @RequestBody CourseDTO updateCourseRequest) {
         Course course = service.update(id, updateCourseRequest);
         return ResponseEntity.ok(course);
     }

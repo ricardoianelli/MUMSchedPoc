@@ -1,6 +1,6 @@
 package com.example.mumschedpoc.dto;
 
-public class UpdateUserRequest {
+public class UserDTO {
     public String name;
     public String email;
     public int userRoleId;
