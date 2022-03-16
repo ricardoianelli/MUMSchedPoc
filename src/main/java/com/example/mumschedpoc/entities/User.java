@@ -20,6 +20,24 @@ public class User implements Serializable {
     @Column(name="user_role")
     private Integer userRole;
 
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "user")
+    @JoinColumn(name = "adminInformationId", referencedColumnName = "id")
+    private AdminInformation adminInformation;
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "user")
+    @JoinColumn(name = "facultyInformationId", referencedColumnName = "id")
+    private FacultyInformation facultyInformation;
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "user")
+    @JoinColumn(name = "studentInformationId", referencedColumnName = "id")
+    private StudentInformation studentInformation;
+
     @JsonIgnore
     private String password;
 
@@ -32,6 +50,12 @@ public class User implements Serializable {
         this.userRole = userRole.getCode();
         this.email = email;
         this.password = password;
+        adminInformation = new AdminInformation();
+        adminInformation.setUser(this);
+        studentInformation = new StudentInformation();
+        studentInformation.setUser(this);
+        facultyInformation = new FacultyInformation();
+        facultyInformation.setUser(this);
     }
 
     public Integer getId() {
@@ -85,5 +109,29 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public AdminInformation getAdminInformation() {
+        return adminInformation;
+    }
+
+    public void setAdminInformation(AdminInformation adminInformation) {
+        this.adminInformation = adminInformation;
+    }
+
+    public FacultyInformation getFacultyInformation() {
+        return facultyInformation;
+    }
+
+    public void setFacultyInformation(FacultyInformation facultyInformation) {
+        this.facultyInformation = facultyInformation;
+    }
+
+    public StudentInformation getStudentInformation() {
+        return studentInformation;
+    }
+
+    public void setStudentInformation(StudentInformation studentInformation) {
+        this.studentInformation = studentInformation;
     }
 }
