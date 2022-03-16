@@ -20,6 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.servlet.Filter;
 import java.util.Arrays;
 
 @Configuration
@@ -37,10 +38,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JWTUtil jwtUtil;
 
     private static final String[] PUBLIC_MATCHERS = {
+            "/",
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
             "/h2-console/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_GET = {
+            "/api/courses",
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
@@ -49,6 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        JWTAuthenticationFilter authenticationFilter = new JWTAuthenticationFilter(authenticationManager(), jwtUtil);
+        authenticationFilter.setFilterProcessesUrl("/api/login");
 
         if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
             http.headers().frameOptions().disable();
@@ -60,7 +77,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated();
-        http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+
+        http.addFilter(authenticationFilter);
         http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
