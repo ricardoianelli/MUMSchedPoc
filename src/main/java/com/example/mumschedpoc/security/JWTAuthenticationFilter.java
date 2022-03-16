@@ -56,9 +56,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
 
-        String username = ((SpringSecurityUser) auth.getPrincipal()).getUsername();
+        SpringSecurityUser user = (SpringSecurityUser) auth.getPrincipal();
+        String username = user.getUsername();
         String token = jwtUtil.generateToken(username);
         res.addHeader("Authorization", "Bearer " + token);
+        res.addHeader("Username", username);
+        res.addHeader("Roles", user.getAuthorities().toString());
     }
 
     private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {
