@@ -30,8 +30,8 @@ public class CourseController {
 
     @GetMapping
     @Operation(summary="List courses")
-    public ResponseEntity<List<Course>> findAll() {
-        List<Course> list = service.findAll();
+    public ResponseEntity<List<CourseDTO>> findAll() {
+        List<CourseDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
@@ -43,8 +43,8 @@ public class CourseController {
             @ApiResponse(description = "Course not found", responseCode = "404",
                     content = @Content)
     })
-    public ResponseEntity<Course> findById(@PathVariable Integer id) {
-        Course course = service.findById(id);
+    public ResponseEntity<CourseDTO> findById(@PathVariable Integer id) {
+        CourseDTO course = service.findById(id);
         return ResponseEntity.ok().body(course);
     }
 
@@ -54,11 +54,11 @@ public class CourseController {
                     content = @Content),
     })
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Course> insert(@RequestBody NewCourseDTO courseRequest) {
-        Course responseCourse = service.insert(courseRequest);
+    public ResponseEntity<CourseDTO> insert(@RequestBody NewCourseDTO courseRequest) {
+        CourseDTO responseCourse = service.insert(courseRequest);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(responseCourse.getId()).toUri();
+                .path("/{id}").buildAndExpand(responseCourse.id).toUri();
 
         return ResponseEntity.created(uri).body(responseCourse);
     }
@@ -86,8 +86,8 @@ public class CourseController {
                     content = @Content)
     })
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Course> update(@PathVariable Integer id, @RequestBody CourseDTO updateCourseRequest) {
-        Course course = service.update(id, updateCourseRequest);
+    public ResponseEntity<CourseDTO> update(@PathVariable Integer id, @RequestBody CourseDTO updateCourseRequest) {
+        CourseDTO course = service.update(id, updateCourseRequest);
         return ResponseEntity.ok(course);
     }
 }
