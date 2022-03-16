@@ -12,19 +12,27 @@ import com.example.mumschedpoc.services.interfaces.IUserService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements IUserService {
+public class UserService implements IUserService, UserDetailsService {
 
     private final IUserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(IUserRepository repository) {
+    public UserService(IUserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> findAll() {
@@ -43,7 +51,7 @@ public class UserService implements IUserService {
 
     public User insert(UserCreationRequest userRequest) {
         UserRole userRole = UserRole.valueOf(userRequest.userRoleId);
-        User user = new User(null, userRequest.name, userRole, userRequest.email, userRequest.password);
+        User user = new User(null, userRequest.name, userRole, userRequest.email, passwordEncoder.encode(userRequest.password));
         return repository.save(user);
     }
 
@@ -75,5 +83,14 @@ public class UserService implements IUserService {
         if (updateUserRequest.email != null) user.setEmail(updateUserRequest.email);
         if (updateUserRequest.userRoleId != 0)
             user.setUserRole(UserRole.valueOf(updateUserRequest.userRoleId));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = repository.findByEmail(username).orElseThrow(() -> new InvalidEmailException(username));
+        List<SimpleGrantedAuthority> authorities = new ArrayList();
+        authorities.add(new SimpleGrantedAuthority(user.getUserRole().name()));
+
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 }
