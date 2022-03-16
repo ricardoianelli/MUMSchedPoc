@@ -2,7 +2,9 @@ package com.example.mumschedpoc.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_course")
@@ -14,14 +16,21 @@ public class Course implements Serializable {
 
     private String code;
     private String name;
+    private String description;
+
+    @ManyToMany
+    private Set<Course> preRequisites;
 
     public Course() {
+        preRequisites = new HashSet<>();
     }
 
-    public Course(Integer id, String code, String name) {
+    public Course(Integer id, String code, String name, String description) {
         this.id = id;
         this.code = code;
         this.name = name;
+        this.description = description;
+        preRequisites = new HashSet<>();
     }
 
     public Integer getId() {
@@ -42,6 +51,22 @@ public class Course implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Course> getPreRequisites() {
+        return preRequisites;
+    }
+
+    public void addPreRequisite(Course preRequisite) {
+        this.preRequisites.add(preRequisite);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
