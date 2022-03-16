@@ -47,7 +47,7 @@ public class UserService implements IUserService {
     }
 
     public User insert(UserCreationRequest userRequest) {
-        UserRole userRole = UserRole.valueOf(userRequest.userRoleId);
+        UserRole userRole = UserRole.toEnum(userRequest.userRoleId);
         User user = new User(null, userRequest.name, userRole, userRequest.email, passwordEncoder.encode(userRequest.password));
         return repository.save(user);
     }
@@ -79,6 +79,6 @@ public class UserService implements IUserService {
         if (updateUserRequest.name != null) user.setName(updateUserRequest.name);
         if (updateUserRequest.email != null) user.setEmail(updateUserRequest.email);
         if (updateUserRequest.userRoleId != 0)
-            user.setUserRole(UserRole.valueOf(updateUserRequest.userRoleId));
+            user.setUserRole(UserRole.toEnum(updateUserRequest.userRoleId));
     }
 }

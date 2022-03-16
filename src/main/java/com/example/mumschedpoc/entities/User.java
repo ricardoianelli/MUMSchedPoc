@@ -67,7 +67,7 @@ public class User implements Serializable {
     }
 
     public UserRole getUserRole() {
-        return UserRole.valueOf(userRole);
+        return UserRole.toEnum(userRole);
     }
 
     public void setUserRole(UserRole userRole) {
