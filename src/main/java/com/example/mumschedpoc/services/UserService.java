@@ -9,9 +9,11 @@ import com.example.mumschedpoc.services.exceptions.DatabaseException;
 import com.example.mumschedpoc.services.exceptions.InvalidEmailException;
 import com.example.mumschedpoc.services.exceptions.ResourceNotFoundException;
 import com.example.mumschedpoc.services.interfaces.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -23,8 +25,11 @@ public class UserService implements IUserService {
 
     private final IUserRepository repository;
 
-    public UserService(IUserRepository repository) {
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public UserService(IUserRepository repository, BCryptPasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> findAll() {
@@ -43,7 +48,7 @@ public class UserService implements IUserService {
 
     public User insert(UserCreationRequest userRequest) {
         UserRole userRole = UserRole.valueOf(userRequest.userRoleId);
-        User user = new User(null, userRequest.name, userRole, userRequest.email, userRequest.password);
+        User user = new User(null, userRequest.name, userRole, userRequest.email, passwordEncoder.encode(userRequest.password));
         return repository.save(user);
     }
 
