@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -29,6 +30,7 @@ public class UserController {
 
     @GetMapping
     @Operation(summary="List users")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<List<User>> findAll() {
         List<User> list = service.findAll();
         return ResponseEntity.ok().body(list);
@@ -52,6 +54,7 @@ public class UserController {
             @ApiResponse(description = "User created", responseCode = "201",
                     content = @Content),
     })
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<User> insert(@RequestBody UserCreationRequest userRequest) {
         User responseUser = service.insert(userRequest);
 
@@ -69,6 +72,7 @@ public class UserController {
             @ApiResponse(description = "User not found", responseCode = "404",
                     content = @Content)
     })
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.ok().build();

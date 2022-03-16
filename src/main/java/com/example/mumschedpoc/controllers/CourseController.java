@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -52,6 +53,7 @@ public class CourseController {
             @ApiResponse(description = "Course created", responseCode = "201",
                     content = @Content),
     })
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Course> insert(@RequestBody CourseCreationRequest courseRequest) {
         Course responseCourse = service.insert(courseRequest);
 
@@ -69,6 +71,7 @@ public class CourseController {
             @ApiResponse(description = "Course not found", responseCode = "404",
                     content = @Content)
     })
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.ok().build();
@@ -82,6 +85,7 @@ public class CourseController {
             @ApiResponse(description = "Course not found", responseCode = "404",
                     content = @Content)
     })
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Course> update(@PathVariable Integer id, @RequestBody UpdateCourseRequest updateCourseRequest) {
         Course course = service.update(id, updateCourseRequest);
         return ResponseEntity.ok(course);
