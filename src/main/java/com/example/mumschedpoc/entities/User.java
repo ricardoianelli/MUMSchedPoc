@@ -20,18 +20,21 @@ public class User implements Serializable {
     @Column(name="user_role")
     private Integer userRole;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,
             mappedBy = "user")
     @JoinColumn(name = "adminInformationId", referencedColumnName = "id")
     private AdminInformation adminInformation;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,
             mappedBy = "user")
     @JoinColumn(name = "facultyInformationId", referencedColumnName = "id")
     private FacultyInformation facultyInformation;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,
             mappedBy = "user")
