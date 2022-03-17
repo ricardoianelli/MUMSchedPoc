@@ -40,4 +40,11 @@ public class BlockController {
 
         return ResponseEntity.created(uri).body(response);
     }
+
+    @GetMapping(value = "/{id}")
+    @Operation(summary="Get block")
+    public ResponseEntity<BlockDTO> findById(@PathVariable Integer id) {
+        BlockDTO block = service.findById(id);
+        return ResponseEntity.ok().body(block);
+    }
 }
