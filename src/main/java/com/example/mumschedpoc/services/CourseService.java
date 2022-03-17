@@ -75,7 +75,7 @@ public class CourseService implements ICourseService {
 
         if (updateCourseRequest.preRequisites.isEmpty()) return;
 
-        course.cleanPreRequisites();
+        course.clearPreRequisites();
 
         for (String preReqCode : updateCourseRequest.preRequisites) {
             Course newPreReq = repository.findByCode(preReqCode);

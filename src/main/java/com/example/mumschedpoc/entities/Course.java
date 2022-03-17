@@ -60,7 +60,7 @@ public class Course implements Serializable {
         this.preRequisites.add(preRequisite);
     }
 
-    public void cleanPreRequisites() {this.preRequisites.clear();}
+    public void clearPreRequisites() {this.preRequisites.clear();}
 
     public String getDescription() {
         return description;
