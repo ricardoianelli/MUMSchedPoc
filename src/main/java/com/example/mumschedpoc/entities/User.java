@@ -24,21 +24,21 @@ public class User implements Serializable {
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,
             mappedBy = "user")
-    @JoinColumn(name = "adminInformationId", referencedColumnName = "id")
+    @JoinColumn(name = "admin_information_id", referencedColumnName = "id")
     private AdminInformation adminInformation;
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,
             mappedBy = "user")
-    @JoinColumn(name = "facultyInformationId", referencedColumnName = "id")
+    @JoinColumn(name = "faculty_information_id", referencedColumnName = "id")
     private FacultyInformation facultyInformation;
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY,
             cascade =  CascadeType.ALL,
             mappedBy = "user")
-    @JoinColumn(name = "studentInformationId", referencedColumnName = "id")
+    @JoinColumn(name = "student_information_id", referencedColumnName = "id")
     private StudentInformation studentInformation;
 
     @JsonIgnore
