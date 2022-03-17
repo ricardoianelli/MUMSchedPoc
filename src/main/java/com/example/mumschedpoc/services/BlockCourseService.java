@@ -1,6 +1,8 @@
 package com.example.mumschedpoc.services;
 
 import com.example.mumschedpoc.dto.BlockCourseDTO;
+import com.example.mumschedpoc.dto.BlockDTO;
+import com.example.mumschedpoc.entities.Block;
 import com.example.mumschedpoc.entities.BlockCourse;
 import com.example.mumschedpoc.repositories.IBlockCourseRepository;
 import com.example.mumschedpoc.repositories.IBlockRepository;
@@ -32,6 +34,29 @@ public class BlockCourseService implements IBlockCourseService {
     public List<BlockCourseDTO> findAll() {
         List<BlockCourse> blocks = repository.findAll();
         return blocks.stream().map(BlockCourseDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public BlockCourseDTO findById(Integer id) {
+        BlockCourse blockCourse = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        return new BlockCourseDTO(blockCourse);
+    }
+
+    @Override
+    public BlockCourseDTO insert(BlockCourseDTO blockCourseDTO) {
+        BlockCourse blockCourse = fromDTO(blockCourseDTO);
+        blockCourse = repository.save(blockCourse);
+        return new BlockCourseDTO(blockCourse);
+    }
+
+    @Override
+    public void delete(Integer id) {
+
+    }
+
+    @Override
+    public BlockCourseDTO update(Integer id, BlockCourseDTO updateBlockCourseDTO) {
+        return null;
     }
 
     //TODO: Improve
