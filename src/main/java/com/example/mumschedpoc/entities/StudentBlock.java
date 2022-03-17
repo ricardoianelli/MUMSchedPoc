@@ -1,16 +1,12 @@
 package com.example.mumschedpoc.entities;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
+@Table(name = "tb_student_block")
 public class StudentBlock {
 
     @Id
@@ -18,21 +14,20 @@ public class StudentBlock {
     private Integer id;
     private Integer blockId;
 
-    //Todo: Improve, had to do like that due to time requirements
-    private String orderedBlockCourseIds;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "student_information_id")
+    private StudentInformation studentInformation;
+
+    @OneToMany(mappedBy = "studentBlock", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BlockCoursePriority> coursePriorities = new ArrayList<>();
 
     public StudentBlock() {
     }
 
-    public StudentBlock(Integer id, Integer blockId) {
+    public StudentBlock(Integer id, Integer blockId, StudentInformation studentInformation) {
         this.id = id;
         this.blockId = blockId;
-    }
-
-    public StudentBlock(Integer id, Integer blockId, String orderedBlockCourseIds) {
-        this.id = id;
-        this.blockId = blockId;
-        this.orderedBlockCourseIds = orderedBlockCourseIds;
+        this.studentInformation = studentInformation;
     }
 
     public Integer getBlockId() {
@@ -43,17 +38,19 @@ public class StudentBlock {
         this.blockId = blockId;
     }
 
-    public List<Integer> getOrderedBlockCourseIds() {
-        return Arrays.stream(orderedBlockCourseIds.split(",")).map(Integer::valueOf).collect(Collectors.toList());
+    public List<BlockCoursePriority> getCoursePriorities() {
+        return coursePriorities;
     }
 
-    public void setOrderedBlockCourseIds(List<Integer> orderedBlockCourseIds) {
-        String asString = orderedBlockCourseIds.stream().map(i -> i.toString()).collect(Collectors.joining(","));
-        this.orderedBlockCourseIds = asString;
+    public void setCoursePriorities(List<BlockCoursePriority> coursePriorities) {
+        this.coursePriorities = coursePriorities;
     }
 
+    public StudentInformation getStudentInformation() {
+        return studentInformation;
+    }
 
-    public void clearBlockCourseIds() {
-        this.orderedBlockCourseIds = "";
+    public void setStudentInformation(StudentInformation studentInformation) {
+        this.studentInformation = studentInformation;
     }
 }
