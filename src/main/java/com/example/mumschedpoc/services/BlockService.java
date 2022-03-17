@@ -11,8 +11,10 @@ import com.example.mumschedpoc.services.interfaces.IBlockCourseService;
 import com.example.mumschedpoc.services.interfaces.IBlockService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,6 +64,30 @@ public class BlockService implements IBlockService {
 
     @Override
     public BlockDTO update(Integer id, BlockDTO updateBlockDTO) {
-        return null;
+        try {
+            Block block = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+            updateBlock(block, updateBlockDTO);
+            block = repository.save(block);
+            return new BlockDTO(block);
+        } catch (EntityNotFoundException ex) {
+            throw new ResourceNotFoundException(id);
+        } catch (JpaObjectRetrievalFailureException ex) {
+            System.out.println(ex.getClass().getSimpleName());
+            throw new ResourceNotFoundException(id);
+        }
+    }
+
+    private void updateBlock(Block block, BlockDTO updateBlockDTO) {
+        if (updateBlockDTO.startDate != null)
+            block.setStartDate(updateBlockDTO.startDate);
+
+        if (updateBlockDTO.blockCourses.isEmpty()) return;
+
+        block.clearBlockCourses();
+
+        for (BlockCourseDTO courseDto : updateBlockDTO.blockCourses) {
+            BlockCourse blockCourse = blockCourseService.fromDTO(courseDto);
+            block.addBlockCourse(blockCourse);
+        }
     }
 }

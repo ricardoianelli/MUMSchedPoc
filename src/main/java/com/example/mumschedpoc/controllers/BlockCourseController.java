@@ -1,7 +1,6 @@
 package com.example.mumschedpoc.controllers;
 
 import com.example.mumschedpoc.dto.BlockCourseDTO;
-import com.example.mumschedpoc.dto.BlockDTO;
 import com.example.mumschedpoc.services.interfaces.IBlockCourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

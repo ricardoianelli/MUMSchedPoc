@@ -54,4 +54,8 @@ public class Block implements Serializable {
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
+
+    public void clearBlockCourses() {
+        blockCourses.clear();
+    }
 }
