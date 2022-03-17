@@ -42,4 +42,8 @@ public class StudentInformation implements Serializable {
     public void setStudentBlocks(List<StudentBlock> studentBlocks) {
         this.studentBlocks = studentBlocks;
     }
+
+    public void clearStudentBlocks() {
+        this.studentBlocks.clear();
+    }
 }

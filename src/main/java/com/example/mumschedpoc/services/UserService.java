@@ -3,9 +3,7 @@ package com.example.mumschedpoc.services;
 import com.example.mumschedpoc.dto.*;
 import com.example.mumschedpoc.entities.*;
 import com.example.mumschedpoc.entities.enums.UserRole;
-import com.example.mumschedpoc.repositories.ICourseRepository;
-import com.example.mumschedpoc.repositories.IStudentInformationRepository;
-import com.example.mumschedpoc.repositories.IUserRepository;
+import com.example.mumschedpoc.repositories.*;
 import com.example.mumschedpoc.security.SpringSecurityUser;
 import com.example.mumschedpoc.services.exceptions.AuthorizationException;
 import com.example.mumschedpoc.services.exceptions.DatabaseException;
@@ -29,13 +27,15 @@ public class UserService implements IUserService {
 
     private final IUserRepository repository;
     private final ICourseRepository courseRepository;
+    private final IBlockCourseRepository blockCourseRepository;
     private final IStudentInformationRepository studentInformationRepository;
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(IUserRepository repository, ICourseRepository courseRepository, IStudentInformationRepository studentInformationRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(IUserRepository repository, ICourseRepository courseRepository, IBlockCourseRepository blockCourseRepository, IStudentInformationRepository studentInformationRepository, BCryptPasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.courseRepository = courseRepository;
+        this.blockCourseRepository = blockCourseRepository;
         this.studentInformationRepository = studentInformationRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -43,8 +43,7 @@ public class UserService implements IUserService {
     public static SpringSecurityUser getAuthenticatedUser() {
         try {
             return (SpringSecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -76,7 +75,7 @@ public class UserService implements IUserService {
         User user = repository.getById(userId);
         FacultyCoursesDTO coursesDTO = new FacultyCoursesDTO();
         coursesDTO.facultyId = userId;
-        for (Course course: user.getFacultyInformation().getPreferredCourses()) {
+        for (Course course : user.getFacultyInformation().getPreferredCourses()) {
             coursesDTO.preferredCourses.add(new CourseDTO(course));
         }
         return coursesDTO;
@@ -95,7 +94,7 @@ public class UserService implements IUserService {
             FacultyCoursesDTO coursesDTO = new FacultyCoursesDTO();
             coursesDTO.facultyId = userId;
 
-            for (Integer courseId: updateFacultyCoursesDTO.preferredCoursesIds) {
+            for (Integer courseId : updateFacultyCoursesDTO.preferredCoursesIds) {
                 Course newCourse = courseRepository.getById(courseId);
                 coursesDTO.preferredCourses.add(new CourseDTO(newCourse));
                 newCourses.add(newCourse);
@@ -118,7 +117,7 @@ public class UserService implements IUserService {
         Integer userId = authenticatedUser.getId();
         StudentInformation studentInformation = studentInformationRepository.findByUserId(userId);
         StudentBlocksDTO studentBlocksDTO = new StudentBlocksDTO();
-        for (StudentBlock studentBlock: studentInformation.getStudentBlocks()) {
+        for (StudentBlock studentBlock : studentInformation.getStudentBlocks()) {
             StudentBlockDTO studentBlockDTO = new StudentBlockDTO();
             studentBlockDTO.blockId = studentBlock.getBlockId();
             for (BlockCoursePriority blockCoursePriority : studentBlock.getCoursePriorities()) {
@@ -129,6 +128,44 @@ public class UserService implements IUserService {
             }
             studentBlocksDTO.blocks.add(studentBlockDTO);
         }
+        return studentBlocksDTO;
+    }
+
+    @Override
+    public StudentBlocksDTO updateStudentBlocks(UpdateStudentBlocksDTO updateStudentBlocksDTO) {
+        SpringSecurityUser authenticatedUser = UserService.getAuthenticatedUser();
+        Integer userId = authenticatedUser.getId();
+        StudentInformation studentInformation = studentInformationRepository.findByUserId(userId);
+        studentInformation.clearStudentBlocks();
+
+        List<StudentBlock> studentBlocks = studentInformation.getStudentBlocks();
+        StudentBlocksDTO studentBlocksDTO = new StudentBlocksDTO();
+
+        for (UpdateStudentBlockDTO updateBlockDTO : updateStudentBlocksDTO.blocks) {
+            StudentBlock studentBlock = new StudentBlock(null, updateBlockDTO.blockId, studentInformation);
+            List<BlockCoursePriority> blockCoursePriorities = new ArrayList<>();
+
+            StudentBlockDTO studentBlockDTO = new StudentBlockDTO();
+            studentBlockDTO.blockId = updateBlockDTO.blockId;
+
+            for (UpdateBlockCoursePriorityDTO priorityDTO : updateBlockDTO.coursePriorities) {
+                BlockCourse blockCourse = blockCourseRepository.findById(priorityDTO.blockCourseId).get();
+                BlockCoursePriority blockCoursePriority = new BlockCoursePriority(null, priorityDTO.priority, blockCourse, studentBlock);
+                blockCoursePriorities.add(blockCoursePriority);
+
+                BlockCoursePriorityDTO blockCoursePriorityDTO = new BlockCoursePriorityDTO();
+                blockCoursePriorityDTO.priority = priorityDTO.priority;
+                blockCoursePriorityDTO.blockCourse = new BlockCourseDTO(blockCourse);
+
+                studentBlockDTO.coursePriorities.add(blockCoursePriorityDTO);
+            }
+
+            studentBlock.setCoursePriorities(blockCoursePriorities);
+            studentBlocks.add(studentBlock);
+            studentBlocksDTO.blocks.add(studentBlockDTO);
+        }
+
+        studentInformationRepository.save(studentInformation);
         return studentBlocksDTO;
     }
 
@@ -165,7 +202,7 @@ public class UserService implements IUserService {
 
     private User getUserById(Integer id) {
         SpringSecurityUser authenticatedUser = UserService.getAuthenticatedUser();
-        if (authenticatedUser==null || !authenticatedUser.hasRole(UserRole.ADMIN) && !id.equals(authenticatedUser.getId())) {
+        if (authenticatedUser == null || !authenticatedUser.hasRole(UserRole.ADMIN) && !id.equals(authenticatedUser.getId())) {
             throw new AuthorizationException("Access Denied");
         }
 

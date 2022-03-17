@@ -122,4 +122,11 @@ public class UserController {
         StudentBlocksDTO studentBlocks = service.getStudentBlocks();
         return ResponseEntity.ok().body(studentBlocks);
     }
+
+    @PutMapping(value = "/student/blocks")
+    @Operation(summary="Update Student Blocks")
+    public ResponseEntity<StudentBlocksDTO> updateStudentBlocks(@RequestBody UpdateStudentBlocksDTO updateStudentBlocksDTO) {
+        StudentBlocksDTO studentBlocks = service.updateStudentBlocks(updateStudentBlocksDTO);
+        return ResponseEntity.ok().body(studentBlocks);
+    }
 }

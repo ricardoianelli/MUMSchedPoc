@@ -24,4 +24,6 @@ public interface IUserService {
     FacultyCoursesDTO updateFacultyCourses(UpdateFacultyCoursesDTO updateFacultyCoursesDTO);
 
     StudentBlocksDTO getStudentBlocks();
+
+    StudentBlocksDTO updateStudentBlocks(UpdateStudentBlocksDTO updateStudentBlocksDTO);
 }
