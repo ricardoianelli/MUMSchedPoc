@@ -1,10 +1,11 @@
 package com.example.mumschedpoc.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "tb_admin_information")
-public class AdminInformation {
+public class AdminInformation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
