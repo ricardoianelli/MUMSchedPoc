@@ -61,7 +61,7 @@ public class MumSchedPocApplication implements CommandLineRunner {
         User admin1 = new User(null, "Ricardo", UserRole.ADMIN, "rianelli@miu.edu", passwordEncoder.encode("12345"));
         User admin2 = new User(null, "Uriel", UserRole.ADMIN, "ubattanoli@miu.edu", passwordEncoder.encode("12345"));
         User student = new User(null, "Lebap", UserRole.STUDENT, "lebap@miu.edu", passwordEncoder.encode("12345"));
-        User faculty = new User(null, "Emdad", UserRole.ADMIN, "emdad@miu.edu", passwordEncoder.encode("12345"));
+        User faculty = new User(null, "Emdad", UserRole.FACULTY, "emdad@miu.edu", passwordEncoder.encode("12345"));
         userRepository.saveAll(Arrays.asList(admin1, admin2, student, faculty));
 
         Course course1 = new Course(null, "CS390", "FPP", "Learn basics of Java and Algorithms");
