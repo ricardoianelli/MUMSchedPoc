@@ -16,5 +16,4 @@ public class BlockCourseDTO {
         this.facultyId = course.getFaculty().getId();
         this.blockId = course.getBlock().getId();
     }
-
 }

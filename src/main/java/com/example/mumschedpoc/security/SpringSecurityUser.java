@@ -1,6 +1,7 @@
 package com.example.mumschedpoc.security;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -70,6 +71,10 @@ public class SpringSecurityUser implements UserDetails {
 
     public boolean hasRole(UserRole role) {
         return getAuthorities().contains(new SimpleGrantedAuthority(role.getDescription()));
+    }
+
+    public List<Integer> getUserRoleIds() {
+        return getAuthorities().stream().map(a -> UserRole.getCodeFromDescription(a.getAuthority())).collect(Collectors.toList());
     }
 }
 
