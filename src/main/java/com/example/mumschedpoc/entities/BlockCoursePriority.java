@@ -1,10 +1,11 @@
 package com.example.mumschedpoc.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "tb_block_course_priority")
-public class BlockCoursePriority {
+public class BlockCoursePriority implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

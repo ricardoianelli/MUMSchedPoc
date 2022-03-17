@@ -2,12 +2,13 @@ package com.example.mumschedpoc.entities;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "tb_student_block")
-public class StudentBlock {
+public class StudentBlock implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

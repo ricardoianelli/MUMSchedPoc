@@ -1,10 +1,9 @@
 package com.example.mumschedpoc.controllers;
 
-import com.example.mumschedpoc.dto.FacultyCoursesDTO;
-import com.example.mumschedpoc.dto.UpdateFacultyCoursesDTO;
+import com.example.mumschedpoc.dto.*;
+import com.example.mumschedpoc.entities.StudentBlock;
+import com.example.mumschedpoc.entities.StudentInformation;
 import com.example.mumschedpoc.entities.User;
-import com.example.mumschedpoc.dto.UserDTO;
-import com.example.mumschedpoc.dto.NewUserDTO;
 import com.example.mumschedpoc.services.interfaces.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -117,4 +116,10 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping(value = "/student/blocks")
+    @Operation(summary="Get Student Blocks")
+    public ResponseEntity<StudentBlocksDTO> getStudentBlocks() {
+        StudentBlocksDTO studentBlocks = service.getStudentBlocks();
+        return ResponseEntity.ok().body(studentBlocks);
+    }
 }

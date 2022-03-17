@@ -1,9 +1,6 @@
 package com.example.mumschedpoc.services.interfaces;
 
-import com.example.mumschedpoc.dto.FacultyCoursesDTO;
-import com.example.mumschedpoc.dto.NewUserDTO;
-import com.example.mumschedpoc.dto.UpdateFacultyCoursesDTO;
-import com.example.mumschedpoc.dto.UserDTO;
+import com.example.mumschedpoc.dto.*;
 
 import java.util.List;
 
@@ -25,4 +22,6 @@ public interface IUserService {
     FacultyCoursesDTO getFacultyCourses();
 
     FacultyCoursesDTO updateFacultyCourses(UpdateFacultyCoursesDTO updateFacultyCoursesDTO);
+
+    StudentBlocksDTO getStudentBlocks();
 }

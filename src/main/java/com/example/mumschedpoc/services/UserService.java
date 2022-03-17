@@ -1,11 +1,10 @@
 package com.example.mumschedpoc.services;
 
 import com.example.mumschedpoc.dto.*;
-import com.example.mumschedpoc.entities.Course;
-import com.example.mumschedpoc.entities.FacultyInformation;
-import com.example.mumschedpoc.entities.User;
+import com.example.mumschedpoc.entities.*;
 import com.example.mumschedpoc.entities.enums.UserRole;
 import com.example.mumschedpoc.repositories.ICourseRepository;
+import com.example.mumschedpoc.repositories.IStudentInformationRepository;
 import com.example.mumschedpoc.repositories.IUserRepository;
 import com.example.mumschedpoc.security.SpringSecurityUser;
 import com.example.mumschedpoc.services.exceptions.AuthorizationException;
@@ -30,12 +29,14 @@ public class UserService implements IUserService {
 
     private final IUserRepository repository;
     private final ICourseRepository courseRepository;
+    private final IStudentInformationRepository studentInformationRepository;
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(IUserRepository repository, ICourseRepository courseRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(IUserRepository repository, ICourseRepository courseRepository, IStudentInformationRepository studentInformationRepository, BCryptPasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.courseRepository = courseRepository;
+        this.studentInformationRepository = studentInformationRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -109,6 +110,26 @@ public class UserService implements IUserService {
             System.out.println(ex.getClass().getSimpleName());
             throw new ResourceNotFoundException(userId);
         }
+    }
+
+    @Override
+    public StudentBlocksDTO getStudentBlocks() {
+        SpringSecurityUser authenticatedUser = UserService.getAuthenticatedUser();
+        Integer userId = authenticatedUser.getId();
+        StudentInformation studentInformation = studentInformationRepository.findByUserId(userId);
+        StudentBlocksDTO studentBlocksDTO = new StudentBlocksDTO();
+        for (StudentBlock studentBlock: studentInformation.getStudentBlocks()) {
+            StudentBlockDTO studentBlockDTO = new StudentBlockDTO();
+            studentBlockDTO.blockId = studentBlock.getBlockId();
+            for (BlockCoursePriority blockCoursePriority : studentBlock.getCoursePriorities()) {
+                BlockCoursePriorityDTO blockCoursePriorityDTO = new BlockCoursePriorityDTO();
+                blockCoursePriorityDTO.priority = blockCoursePriority.getPriority();
+                blockCoursePriorityDTO.blockCourse = new BlockCourseDTO(blockCoursePriority.getBlockCourse());
+                studentBlockDTO.coursePriorities.add(blockCoursePriorityDTO);
+            }
+            studentBlocksDTO.blocks.add(studentBlockDTO);
+        }
+        return studentBlocksDTO;
     }
 
     public UserDTO insert(NewUserDTO userRequest) {
