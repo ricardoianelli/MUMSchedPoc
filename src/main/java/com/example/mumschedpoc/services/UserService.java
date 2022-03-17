@@ -1,9 +1,11 @@
 package com.example.mumschedpoc.services;
 
-import com.example.mumschedpoc.dto.NewUserDTO;
-import com.example.mumschedpoc.dto.UserDTO;
+import com.example.mumschedpoc.dto.*;
+import com.example.mumschedpoc.entities.Course;
+import com.example.mumschedpoc.entities.FacultyInformation;
 import com.example.mumschedpoc.entities.User;
 import com.example.mumschedpoc.entities.enums.UserRole;
+import com.example.mumschedpoc.repositories.ICourseRepository;
 import com.example.mumschedpoc.repositories.IUserRepository;
 import com.example.mumschedpoc.security.SpringSecurityUser;
 import com.example.mumschedpoc.services.exceptions.AuthorizationException;
@@ -19,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,11 +29,13 @@ import java.util.stream.Collectors;
 public class UserService implements IUserService {
 
     private final IUserRepository repository;
+    private final ICourseRepository courseRepository;
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(IUserRepository repository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(IUserRepository repository, ICourseRepository courseRepository, BCryptPasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.courseRepository = courseRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -61,6 +66,40 @@ public class UserService implements IUserService {
     public List<UserDTO> findByUserRole(Integer roleId) {
         List<User> users = repository.findByUserRole(roleId);
         return users.stream().map(UserDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public FacultyCoursesDTO getFacultyCourses() {
+        SpringSecurityUser authenticatedUser = UserService.getAuthenticatedUser();
+        Integer userId = authenticatedUser.getId();
+        User user = repository.getById(userId);
+        FacultyCoursesDTO coursesDTO = new FacultyCoursesDTO();
+        coursesDTO.facultyId = userId;
+        for (Course course: user.getFacultyInformation().getPreferredCourses()) {
+            coursesDTO.preferredCourses.add(new CourseDTO(course));
+        }
+        return coursesDTO;
+    }
+
+    @Override
+    public FacultyCoursesDTO updateFacultyCourses(UpdateFacultyCoursesDTO updateFacultyCoursesDTO) {
+        SpringSecurityUser authenticatedUser = UserService.getAuthenticatedUser();
+        Integer userId = authenticatedUser.getId();
+        User user = repository.getById(userId);
+        FacultyInformation facultyInformation = user.getFacultyInformation();
+        List<Course> newCourses = new ArrayList<>();
+
+        FacultyCoursesDTO coursesDTO = new FacultyCoursesDTO();
+        coursesDTO.facultyId = userId;
+
+        for (Integer courseId: updateFacultyCoursesDTO.preferredCoursesIds) {
+            Course newCourse = courseRepository.getById(courseId);
+            coursesDTO.preferredCourses.add(new CourseDTO(newCourse));
+            newCourses.add(newCourse);
+        }
+
+        facultyInformation.setPreferredCourses(newCourses);
+        return coursesDTO;
     }
 
     public UserDTO insert(NewUserDTO userRequest) {

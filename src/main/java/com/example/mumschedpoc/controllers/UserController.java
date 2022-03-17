@@ -1,5 +1,7 @@
 package com.example.mumschedpoc.controllers;
 
+import com.example.mumschedpoc.dto.FacultyCoursesDTO;
+import com.example.mumschedpoc.dto.UpdateFacultyCoursesDTO;
 import com.example.mumschedpoc.entities.User;
 import com.example.mumschedpoc.dto.UserDTO;
 import com.example.mumschedpoc.dto.NewUserDTO;
@@ -98,6 +100,20 @@ public class UserController {
     })
     public ResponseEntity<UserDTO> update(@PathVariable Integer id, @RequestBody UserDTO updateUserRequest) {
         UserDTO user = service.update(id, updateUserRequest);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping(value = "/faculty/courses")
+    @Operation(summary="Get Faculty Courses")
+    public ResponseEntity<FacultyCoursesDTO> getAllCourses() {
+        FacultyCoursesDTO coursesDTO = service.getFacultyCourses();
+        return ResponseEntity.ok().body(coursesDTO);
+    }
+
+    @PutMapping(value = "/faculty/courses")
+    @Operation(summary="Update Faculty Courses")
+    public ResponseEntity<FacultyCoursesDTO> update(@RequestBody UpdateFacultyCoursesDTO updateFacultyCoursesDTO) {
+        FacultyCoursesDTO user = service.updateFacultyCourses(updateFacultyCoursesDTO);
         return ResponseEntity.ok(user);
     }
 
