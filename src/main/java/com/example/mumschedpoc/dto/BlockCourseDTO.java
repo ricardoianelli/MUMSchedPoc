@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class BlockCourseDTO {
     public Integer id;
     public CourseDTO course;
-    public String facultyName;
+    public UserDTO faculty;
     public Integer blockId;
     public LocalDate blockStartDate;
     public Integer availableSeats;
@@ -19,7 +19,7 @@ public class BlockCourseDTO {
     public BlockCourseDTO(BlockCourse course) {
         this.id = course.getId();
         this.course = new CourseDTO(course.getCourse());
-        this.facultyName = course.getFaculty().getName();
+        this.faculty = new UserDTO(course.getFaculty());
         this.availableSeats = course.getAvailableSeats();
 
         Block block = course.getBlock();
