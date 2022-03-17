@@ -85,21 +85,30 @@ public class UserService implements IUserService {
     public FacultyCoursesDTO updateFacultyCourses(UpdateFacultyCoursesDTO updateFacultyCoursesDTO) {
         SpringSecurityUser authenticatedUser = UserService.getAuthenticatedUser();
         Integer userId = authenticatedUser.getId();
-        User user = repository.getById(userId);
-        FacultyInformation facultyInformation = user.getFacultyInformation();
-        List<Course> newCourses = new ArrayList<>();
 
-        FacultyCoursesDTO coursesDTO = new FacultyCoursesDTO();
-        coursesDTO.facultyId = userId;
+        try {
+            User user = repository.getById(userId);
+            FacultyInformation facultyInformation = user.getFacultyInformation();
+            List<Course> newCourses = new ArrayList<>();
 
-        for (Integer courseId: updateFacultyCoursesDTO.preferredCoursesIds) {
-            Course newCourse = courseRepository.getById(courseId);
-            coursesDTO.preferredCourses.add(new CourseDTO(newCourse));
-            newCourses.add(newCourse);
+            FacultyCoursesDTO coursesDTO = new FacultyCoursesDTO();
+            coursesDTO.facultyId = userId;
+
+            for (Integer courseId: updateFacultyCoursesDTO.preferredCoursesIds) {
+                Course newCourse = courseRepository.getById(courseId);
+                coursesDTO.preferredCourses.add(new CourseDTO(newCourse));
+                newCourses.add(newCourse);
+            }
+
+            facultyInformation.setPreferredCourses(newCourses);
+            repository.save(user);
+            return coursesDTO;
+        } catch (EntityNotFoundException ex) {
+            throw new ResourceNotFoundException(userId);
+        } catch (JpaObjectRetrievalFailureException ex) {
+            System.out.println(ex.getClass().getSimpleName());
+            throw new ResourceNotFoundException(userId);
         }
-
-        facultyInformation.setPreferredCourses(newCourses);
-        return coursesDTO;
     }
 
     public UserDTO insert(NewUserDTO userRequest) {
