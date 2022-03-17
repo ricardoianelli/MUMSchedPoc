@@ -11,6 +11,7 @@ public class UserDTO {
     public UserDTO() {
     }
 
+    //TODO: DTOs should NOT know about the entity and vice-versa, but for simplicity let's just do it for now
     public UserDTO(User user) {
         this.id = user.getId();
         this.name = user.getName();

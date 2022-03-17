@@ -13,14 +13,15 @@ public class BlockDTO {
 
     @JsonFormat(pattern="MM-dd-yyyy")
     public LocalDate startDate;
-    public List<BlockCourseDTO> courses = new ArrayList();
+    public List<BlockCourseDTO> blockCourses = new ArrayList();
 
     public BlockDTO() {
     }
 
+    //TODO: DTOs should NOT know about the entity and vice-versa, but for simplicity let's just do it for now
     public BlockDTO(Block block) {
         this.id = block.getId();
         this.startDate = block.getStartDate();
-        this.courses = block.getBlockCourses().stream().map(c -> new BlockCourseDTO(c)).collect(Collectors.toList());
+        this.blockCourses = block.getBlockCourses().stream().map(c -> new BlockCourseDTO(c)).collect(Collectors.toList());
     }
 }

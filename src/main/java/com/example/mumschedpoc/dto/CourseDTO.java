@@ -15,6 +15,7 @@ public class CourseDTO {
 
     public CourseDTO() {}
 
+    //TODO: DTOs should NOT know about the entity and vice-versa, but for simplicity let's just do it for now
     public CourseDTO(Course course) {
         this.id = course.getId();
         this.code = course.getCode();
