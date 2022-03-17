@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -31,8 +32,17 @@ public class UserController {
     @GetMapping
     @Operation(summary="List users")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<List<User>> findAll() {
-        List<User> list = service.findAll();
+    public ResponseEntity<List<UserDTO>> findAll(@RequestParam(value="role", defaultValue = "") Integer roleId) {
+        List<UserDTO> list = new ArrayList<>();
+
+        if (roleId == 0) {
+            list = service.findAll();
+        }
+        else
+        {
+            list = service.findByUserRole(roleId);
+        }
+
         return ResponseEntity.ok().body(list);
     }
 

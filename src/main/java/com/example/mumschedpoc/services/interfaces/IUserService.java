@@ -18,4 +18,5 @@ public interface IUserService {
 
     UserDTO findByEmail(String email);
 
+    List<UserDTO> findByUserRole(Integer roleId);
 }

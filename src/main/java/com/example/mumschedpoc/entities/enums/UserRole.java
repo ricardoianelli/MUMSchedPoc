@@ -36,4 +36,18 @@ public enum UserRole {
         }
         throw new IllegalArgumentException("Invalid UserRole code: " + code);
     }
+
+    public static Integer getCodeFromDescription(String description)
+    {
+        if (description.equals(null)) return null;
+
+        for (UserRole role : UserRole.values())
+        {
+            if (description.equals(role.getDescription()))
+            {
+                return role.code;
+            }
+        }
+        throw new IllegalArgumentException("Invalid UserRole with description: " + description);
+    }
 }

@@ -1,10 +1,10 @@
 package com.example.mumschedpoc.services;
 
+import com.example.mumschedpoc.dto.NewUserDTO;
+import com.example.mumschedpoc.dto.UserDTO;
 import com.example.mumschedpoc.entities.User;
 import com.example.mumschedpoc.entities.enums.UserRole;
 import com.example.mumschedpoc.repositories.IUserRepository;
-import com.example.mumschedpoc.dto.UserDTO;
-import com.example.mumschedpoc.dto.NewUserDTO;
 import com.example.mumschedpoc.security.SpringSecurityUser;
 import com.example.mumschedpoc.services.exceptions.AuthorizationException;
 import com.example.mumschedpoc.services.exceptions.DatabaseException;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements IUserService {
@@ -57,10 +57,17 @@ public class UserService implements IUserService {
         return new UserDTO(user);
     }
 
-    public User insert(NewUserDTO userRequest) {
+    @Override
+    public List<UserDTO> findByUserRole(Integer roleId) {
+        List<User> users = repository.findByUserRole(roleId);
+        return users.stream().map(UserDTO::new).collect(Collectors.toList());
+    }
+
+    public UserDTO insert(NewUserDTO userRequest) {
         UserRole userRole = UserRole.toEnum(userRequest.userRoleId);
         User user = new User(null, userRequest.name, userRole, userRequest.email, passwordEncoder.encode(userRequest.password));
-        return repository.save(user);
+        user = repository.save(user);
+        return new UserDTO(user);
     }
 
     public void delete(Integer id) {
