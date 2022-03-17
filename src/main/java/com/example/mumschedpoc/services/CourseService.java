@@ -82,4 +82,13 @@ public class CourseService implements ICourseService {
             course.addPreRequisite(newPreReq);
         }
     }
+
+    public Course fromDTO(CourseDTO dto) {
+        Course course = new Course(dto.id, dto.code, dto.name, dto.description);
+        for (String preReqCode : dto.preRequisites) {
+            Course newPreReq = repository.findByCode(preReqCode);
+            course.addPreRequisite(newPreReq);
+        }
+        return course;
+    }
 }
