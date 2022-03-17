@@ -14,7 +14,7 @@ public class Block implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany(mappedBy = "block", cascade =  CascadeType.ALL)
+    @OneToMany(mappedBy = "block", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BlockCourse> blockCourses = new ArrayList<>();
 
     private LocalDate startDate;
