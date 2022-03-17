@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class BlockDTO {
     public Integer id;
 
-    @JsonFormat(pattern="MM-dd-yyyy")
+    @JsonFormat(pattern="yyyy-MM-dd")
     public LocalDate startDate;
     public List<BlockCourseDTO> blockCourses = new ArrayList();
 
