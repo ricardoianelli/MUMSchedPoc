@@ -1,0 +1,551 @@
+{
+	"info": {
+		"_postman_id": "ea616913-bd1f-483f-9d81-8e10abf87c0d",
+		"name": "MUMSched",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "List users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer aaa",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base}}/api/users?role=3",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/users/4",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Ricardo Ianelli\",\r\n    \"email\": \"rianelli@miu.edu\",\r\n    \"userRoleId\": \"1\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/users",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/users/2",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userRoleId\": \"2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/users/4",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Course",
+			"item": [
+				{
+					"name": "List Courses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/courses",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Course",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/courses/3",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"courses",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Course",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": 390,\r\n    \"name\": \"FPP\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/courses",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Course",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/courses/2",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"courses",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Course",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Learn more about Software Engineering and best practices\",\r\n    \"preRequisites\": [\r\n        \"CS390\",\r\n        \"CS401\",\r\n        \"CS401\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/courses/3",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"courses",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"rianelli@miu.edu\",\r\n  \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/login",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Block",
+			"item": [
+				{
+					"name": "List Blocks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/blocks",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"blocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Block",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"startDate\": \"03-15-2022\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/blocks",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"blocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Block",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/blocks/2",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"blocks",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Block",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/blocks/2",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"blocks",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Block",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"startDate\": \"09-23-2022\",\r\n    \"blockCourses\": [\r\n        {\r\n            \"courseId\": 2,\r\n            \"facultyId\": 4,\r\n            \"blockId\": 3,\r\n            \"availableSeats\": 15\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/blocks/3",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"blocks",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Block Course",
+			"item": [
+				{
+					"name": "List Block Courses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/block_courses",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"block_courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Block Course",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"courseId\": 3,\r\n        \"facultyId\": 4,\r\n        \"blockId\": 3,\r\n        \"availableSeats\": 22\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/block_courses",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"block_courses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Block Course",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/block_courses/2",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"block_courses",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Block Course",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base}}/api/block_courses/2",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"block_courses",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Block Course",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"courseId\": 2,\r\n    \"facultyId\": 4,\r\n    \"blockId\": 1,\r\n    \"availableSeats\": 11\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base}}/api/block_courses/2",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"api",
+								"block_courses",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyaWFuZWxsaUBtaXUuZWR1IiwiZXhwIjoxNjQ3NDk0Njg3fQ.zf_BHPyXrbUzDzPIYEwaZMc7gtUeN0QUDyTKDEWDr1FMJeQLmPbJkSQPl4pHyxoi66iw_s4BodPuRRaqWmco0A",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
