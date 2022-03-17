@@ -1,8 +1,12 @@
 package com.example.mumschedpoc;
 
+import com.example.mumschedpoc.entities.Block;
+import com.example.mumschedpoc.entities.BlockCourse;
 import com.example.mumschedpoc.entities.Course;
 import com.example.mumschedpoc.entities.User;
 import com.example.mumschedpoc.entities.enums.UserRole;
+import com.example.mumschedpoc.repositories.IBlockCourseRepository;
+import com.example.mumschedpoc.repositories.IBlockRepository;
 import com.example.mumschedpoc.repositories.ICourseRepository;
 import com.example.mumschedpoc.repositories.IUserRepository;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -24,6 +28,12 @@ public class MumSchedPocApplication implements CommandLineRunner {
 
     @Autowired
     ICourseRepository courseRepository;
+
+    @Autowired
+    IBlockRepository blockRepository;
+
+    @Autowired
+    IBlockCourseRepository blockCourseRepository;
 
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
@@ -59,6 +69,15 @@ public class MumSchedPocApplication implements CommandLineRunner {
         Course course3 = new Course(null, "CS425", "Software Engineering", "Learn more about Software Engineering");
         course2.addPreRequisite(course1);
         courseRepository.saveAll(Arrays.asList(course1, course2, course3));
+
+        Block block1 = new Block(null);
+        Block block2 = new Block(null);
+        blockRepository.saveAll(Arrays.asList(block1, block2));
+
+        BlockCourse blockCourse1 = new BlockCourse(null, block1, course3, faculty, 30);
+        BlockCourse blockCourse2 = new BlockCourse(null, block2, course1, faculty, 24);
+        BlockCourse blockCourse3 = new BlockCourse(null, block1, course2, faculty, 12);
+        blockCourseRepository.saveAll(Arrays.asList(blockCourse1, blockCourse2, blockCourse3));
 
     }
 }
