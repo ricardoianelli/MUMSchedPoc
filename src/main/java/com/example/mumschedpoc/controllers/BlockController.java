@@ -3,6 +3,8 @@ package com.example.mumschedpoc.controllers;
 import com.example.mumschedpoc.dto.BlockDTO;
 import com.example.mumschedpoc.services.interfaces.IBlockService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,5 +48,13 @@ public class BlockController {
     public ResponseEntity<BlockDTO> findById(@PathVariable Integer id) {
         BlockDTO block = service.findById(id);
         return ResponseEntity.ok().body(block);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @Operation(summary="Delete course")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        service.delete(id);
+        return ResponseEntity.ok().build();
     }
 }

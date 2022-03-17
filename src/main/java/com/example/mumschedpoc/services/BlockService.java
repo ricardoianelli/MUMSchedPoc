@@ -5,9 +5,12 @@ import com.example.mumschedpoc.dto.BlockDTO;
 import com.example.mumschedpoc.entities.Block;
 import com.example.mumschedpoc.entities.BlockCourse;
 import com.example.mumschedpoc.repositories.IBlockRepository;
+import com.example.mumschedpoc.services.exceptions.DatabaseException;
 import com.example.mumschedpoc.services.exceptions.ResourceNotFoundException;
 import com.example.mumschedpoc.services.interfaces.IBlockCourseService;
 import com.example.mumschedpoc.services.interfaces.IBlockService;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,7 +51,13 @@ public class BlockService implements IBlockService {
 
     @Override
     public void delete(Integer id) {
-
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new ResourceNotFoundException(id);
+        } catch (DataIntegrityViolationException ex) {
+            throw new DatabaseException(ex.getMessage());
+        }
     }
 
     @Override
