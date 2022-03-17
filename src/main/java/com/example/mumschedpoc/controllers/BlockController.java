@@ -49,7 +49,7 @@ public class BlockController {
     }
 
     @DeleteMapping(value = "/{id}")
-    @Operation(summary="Delete course")
+    @Operation(summary="Delete block")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);

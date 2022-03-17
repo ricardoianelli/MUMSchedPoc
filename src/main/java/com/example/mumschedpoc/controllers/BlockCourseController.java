@@ -1,6 +1,7 @@
 package com.example.mumschedpoc.controllers;
 
 import com.example.mumschedpoc.dto.BlockCourseDTO;
+import com.example.mumschedpoc.dto.BlockDTO;
 import com.example.mumschedpoc.services.interfaces.IBlockCourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,5 +40,28 @@ public class BlockCourseController {
                 .path("/{id}").buildAndExpand(response.id).toUri();
 
         return ResponseEntity.created(uri).body(response);
+    }
+
+    @GetMapping(value = "/{id}")
+    @Operation(summary="Get block course")
+    public ResponseEntity<BlockCourseDTO> findById(@PathVariable Integer id) {
+        BlockCourseDTO blockCourse = service.findById(id);
+        return ResponseEntity.ok().body(blockCourse);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @Operation(summary="Delete block course")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        service.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(value = "/{id}")
+    @Operation(summary="Update block course")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<BlockCourseDTO> update(@PathVariable Integer id, @RequestBody BlockCourseDTO updateBlockCourseDTO) {
+        BlockCourseDTO blockCourseDTO = service.update(id, updateBlockCourseDTO);
+        return ResponseEntity.ok(blockCourseDTO);
     }
 }
