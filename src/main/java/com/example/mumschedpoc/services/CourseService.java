@@ -72,11 +72,14 @@ public class CourseService implements ICourseService {
             course.setName(updateCourseRequest.name);
         if (updateCourseRequest.description != null)
             course.setDescription(updateCourseRequest.description);
+
+        if (updateCourseRequest.preRequisites.isEmpty()) return;
+
+        course.cleanPreRequisites();
+
         for (String preReqCode : updateCourseRequest.preRequisites) {
             Course newPreReq = repository.findByCode(preReqCode);
-            if (!course.getPreRequisites().contains(newPreReq)) {
-                course.addPreRequisite(newPreReq);
-            }
+            course.addPreRequisite(newPreReq);
         }
     }
 }
