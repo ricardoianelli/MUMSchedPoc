@@ -2,6 +2,7 @@ package com.example.mumschedpoc.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +17,18 @@ public class Block implements Serializable {
     @OneToMany(mappedBy = "block")
     private List<BlockCourse> blockCourses = new ArrayList<>();
 
+    private LocalDate startDate;
+
     public Block() {}
 
     public Block(Integer id) {
         this.id = id;
+        this.startDate = LocalDate.now();
+    }
+
+    public Block(Integer id, LocalDate startDate) {
+        this.id = id;
+        this.startDate = startDate;
     }
 
     public void setId(Integer id) {
@@ -36,5 +45,13 @@ public class Block implements Serializable {
 
     public void addBlockCourse(BlockCourse blockCourse) {
         blockCourses.add(blockCourse);
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 }
