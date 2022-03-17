@@ -1,6 +1,7 @@
 package com.example.mumschedpoc.controllers;
 
 import com.example.mumschedpoc.dto.BlockDTO;
+import com.example.mumschedpoc.dto.NewBlockDTO;
 import com.example.mumschedpoc.services.interfaces.IBlockService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,7 +33,7 @@ public class BlockController {
     @PostMapping
     @Operation(summary="Add block")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<BlockDTO> insert(@RequestBody BlockDTO blockDTO) {
+    public ResponseEntity<BlockDTO> insert(@RequestBody NewBlockDTO blockDTO) {
         BlockDTO response = service.insert(blockDTO);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -59,7 +60,7 @@ public class BlockController {
     @PutMapping(value = "/{id}")
     @Operation(summary="Update block")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<BlockDTO> update(@PathVariable Integer id, @RequestBody BlockDTO updateBlockDTO) {
+    public ResponseEntity<BlockDTO> update(@PathVariable Integer id, @RequestBody NewBlockDTO updateBlockDTO) {
         BlockDTO blockDTO = service.update(id, updateBlockDTO);
         return ResponseEntity.ok(blockDTO);
     }

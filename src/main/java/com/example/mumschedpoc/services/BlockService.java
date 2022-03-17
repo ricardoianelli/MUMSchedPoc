@@ -1,7 +1,8 @@
 package com.example.mumschedpoc.services;
 
-import com.example.mumschedpoc.dto.BlockCourseDTO;
 import com.example.mumschedpoc.dto.BlockDTO;
+import com.example.mumschedpoc.dto.NewBlockCourseDTO;
+import com.example.mumschedpoc.dto.NewBlockDTO;
 import com.example.mumschedpoc.entities.Block;
 import com.example.mumschedpoc.entities.BlockCourse;
 import com.example.mumschedpoc.repositories.IBlockRepository;
@@ -41,9 +42,9 @@ public class BlockService implements IBlockService {
     }
 
     @Override
-    public BlockDTO insert(BlockDTO blockRequest) {
+    public BlockDTO insert(NewBlockDTO blockRequest) {
         Block block = new Block(null, blockRequest.startDate);
-        for (BlockCourseDTO courseDTO: blockRequest.blockCourses) {
+        for (NewBlockCourseDTO courseDTO: blockRequest.blockCourses) {
             BlockCourse blockCourse = blockCourseService.fromDTO(courseDTO);
             block.addBlockCourse(blockCourse);
         }
@@ -63,7 +64,7 @@ public class BlockService implements IBlockService {
     }
 
     @Override
-    public BlockDTO update(Integer id, BlockDTO updateBlockDTO) {
+    public BlockDTO update(Integer id, NewBlockDTO updateBlockDTO) {
         try {
             Block block = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
             updateBlock(block, updateBlockDTO);
@@ -77,7 +78,7 @@ public class BlockService implements IBlockService {
         }
     }
 
-    private void updateBlock(Block block, BlockDTO updateBlockDTO) {
+    private void updateBlock(Block block, NewBlockDTO updateBlockDTO) {
         if (updateBlockDTO.startDate != null)
             block.setStartDate(updateBlockDTO.startDate);
 
@@ -85,7 +86,7 @@ public class BlockService implements IBlockService {
 
         block.clearBlockCourses();
 
-        for (BlockCourseDTO courseDto : updateBlockDTO.blockCourses) {
+        for (NewBlockCourseDTO courseDto : updateBlockDTO.blockCourses) {
             BlockCourse blockCourse = blockCourseService.fromDTO(courseDto);
             block.addBlockCourse(blockCourse);
         }

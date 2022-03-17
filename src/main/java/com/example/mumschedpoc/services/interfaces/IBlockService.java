@@ -1,6 +1,7 @@
 package com.example.mumschedpoc.services.interfaces;
 
 import com.example.mumschedpoc.dto.BlockDTO;
+import com.example.mumschedpoc.dto.NewBlockDTO;
 
 import java.util.List;
 
@@ -9,9 +10,9 @@ public interface IBlockService {
 
     BlockDTO findById(Integer id);
 
-    BlockDTO insert(BlockDTO blockRequest);
+    BlockDTO insert(NewBlockDTO blockRequest);
 
     void delete(Integer id);
 
-    BlockDTO update(Integer id, BlockDTO updateBlockDTO);
+    BlockDTO update(Integer id, NewBlockDTO updateBlockDTO);
 }

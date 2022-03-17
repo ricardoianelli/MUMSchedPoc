@@ -2,6 +2,7 @@ package com.example.mumschedpoc.services;
 
 import com.example.mumschedpoc.dto.BlockCourseDTO;
 import com.example.mumschedpoc.dto.BlockDTO;
+import com.example.mumschedpoc.dto.NewBlockCourseDTO;
 import com.example.mumschedpoc.entities.Block;
 import com.example.mumschedpoc.entities.BlockCourse;
 import com.example.mumschedpoc.entities.Course;
@@ -50,7 +51,7 @@ public class BlockCourseService implements IBlockCourseService {
     }
 
     @Override
-    public BlockCourseDTO insert(BlockCourseDTO blockCourseDTO) {
+    public BlockCourseDTO insert(NewBlockCourseDTO blockCourseDTO) {
         BlockCourse blockCourse = fromDTO(blockCourseDTO);
         blockCourse = repository.save(blockCourse);
         return new BlockCourseDTO(blockCourse);
@@ -68,7 +69,7 @@ public class BlockCourseService implements IBlockCourseService {
     }
 
     @Override
-    public BlockCourseDTO update(Integer id, BlockCourseDTO updateBlockCourseDTO) {
+    public BlockCourseDTO update(Integer id, NewBlockCourseDTO updateBlockCourseDTO) {
         try {
             BlockCourse blockCourse = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
             updateBlockCourse(blockCourse, updateBlockCourseDTO);
@@ -82,7 +83,7 @@ public class BlockCourseService implements IBlockCourseService {
         }
     }
 
-    private void updateBlockCourse(BlockCourse blockCourse, BlockCourseDTO updateBlockCourseDTO) {
+    private void updateBlockCourse(BlockCourse blockCourse, NewBlockCourseDTO updateBlockCourseDTO) {
         if (updateBlockCourseDTO.courseId != null)
             blockCourse.setCourse(getCourseById(updateBlockCourseDTO.courseId));
 
@@ -109,7 +110,7 @@ public class BlockCourseService implements IBlockCourseService {
     }
 
     //TODO: Improve
-    public BlockCourse fromDTO(BlockCourseDTO dto) {
+    public BlockCourse fromDTO(NewBlockCourseDTO dto) {
         BlockCourse course = new BlockCourse(dto.id,
                 getBlockById(dto.blockId),
                 getCourseById(dto.courseId),

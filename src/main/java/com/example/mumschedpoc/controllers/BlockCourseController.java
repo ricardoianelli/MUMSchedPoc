@@ -1,7 +1,7 @@
 package com.example.mumschedpoc.controllers;
 
 import com.example.mumschedpoc.dto.BlockCourseDTO;
-import com.example.mumschedpoc.dto.BlockDTO;
+import com.example.mumschedpoc.dto.NewBlockCourseDTO;
 import com.example.mumschedpoc.services.interfaces.IBlockCourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,7 +33,7 @@ public class BlockCourseController {
     @PostMapping
     @Operation(summary="Add block course")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<BlockCourseDTO> insert(@RequestBody BlockCourseDTO blockCourseDTO) {
+    public ResponseEntity<BlockCourseDTO> insert(@RequestBody NewBlockCourseDTO blockCourseDTO) {
         BlockCourseDTO response = service.insert(blockCourseDTO);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -60,7 +60,7 @@ public class BlockCourseController {
     @PutMapping(value = "/{id}")
     @Operation(summary="Update block course")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<BlockCourseDTO> update(@PathVariable Integer id, @RequestBody BlockCourseDTO updateBlockCourseDTO) {
+    public ResponseEntity<BlockCourseDTO> update(@PathVariable Integer id, @RequestBody NewBlockCourseDTO updateBlockCourseDTO) {
         BlockCourseDTO blockCourseDTO = service.update(id, updateBlockCourseDTO);
         return ResponseEntity.ok(blockCourseDTO);
     }
