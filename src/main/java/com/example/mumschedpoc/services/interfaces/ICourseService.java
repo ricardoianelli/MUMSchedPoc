@@ -1,8 +1,7 @@
 package com.example.mumschedpoc.services.interfaces;
 
-import com.example.mumschedpoc.entities.Course;
-import com.example.mumschedpoc.dto.NewCourseDTO;
 import com.example.mumschedpoc.dto.CourseDTO;
+import com.example.mumschedpoc.dto.NewCourseDTO;
 
 import java.util.List;
 
