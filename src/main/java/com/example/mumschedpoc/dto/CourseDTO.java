@@ -2,6 +2,7 @@ package com.example.mumschedpoc.dto;
 
 import com.example.mumschedpoc.entities.Course;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,7 +11,7 @@ public class CourseDTO {
     public String code;
     public String name;
     public String description;
-    public List<String> preRequisites;
+    public List<String> preRequisites = new ArrayList();
 
     public CourseDTO() {}
 

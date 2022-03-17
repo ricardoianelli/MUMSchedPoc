@@ -19,7 +19,7 @@ public class Course implements Serializable {
     private String description;
 
     @ManyToMany
-    private Set<Course> preRequisites;
+    private Set<Course> preRequisites = new HashSet<>();
 
     public Course() {
         preRequisites = new HashSet<>();
@@ -30,7 +30,6 @@ public class Course implements Serializable {
         this.code = code;
         this.name = name;
         this.description = description;
-        preRequisites = new HashSet<>();
     }
 
     public Integer getId() {
