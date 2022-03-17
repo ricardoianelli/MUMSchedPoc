@@ -44,8 +44,8 @@ public class UserController {
             @ApiResponse(description = "User not found", responseCode = "404",
                     content = @Content)
     })
-    public ResponseEntity<User> findById(@PathVariable Integer id) {
-        User user = service.findById(id);
+    public ResponseEntity<UserDTO> findById(@PathVariable Integer id) {
+        UserDTO user = service.findById(id);
         return ResponseEntity.ok().body(user);
     }
 
@@ -55,11 +55,11 @@ public class UserController {
                     content = @Content),
     })
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<User> insert(@RequestBody NewUserDTO userRequest) {
-        User responseUser = service.insert(userRequest);
+    public ResponseEntity<UserDTO> insert(@RequestBody NewUserDTO userRequest) {
+        UserDTO responseUser = service.insert(userRequest);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(responseUser.getId()).toUri();
+                .path("/{id}").buildAndExpand(responseUser.id).toUri();
 
         return ResponseEntity.created(uri).body(responseUser);
     }
@@ -86,8 +86,8 @@ public class UserController {
             @ApiResponse(description = "User not found", responseCode = "404",
                     content = @Content)
     })
-    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody UserDTO updateUserRequest) {
-        User user = service.update(id, updateUserRequest);
+    public ResponseEntity<UserDTO> update(@PathVariable Integer id, @RequestBody UserDTO updateUserRequest) {
+        UserDTO user = service.update(id, updateUserRequest);
         return ResponseEntity.ok(user);
     }
 

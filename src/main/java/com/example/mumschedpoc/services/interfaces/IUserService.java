@@ -1,22 +1,21 @@
 package com.example.mumschedpoc.services.interfaces;
 
-import com.example.mumschedpoc.entities.User;
-import com.example.mumschedpoc.dto.UserDTO;
 import com.example.mumschedpoc.dto.NewUserDTO;
+import com.example.mumschedpoc.dto.UserDTO;
 
 import java.util.List;
 
 public interface IUserService {
-    List<User> findAll();
+    List<UserDTO> findAll();
 
-    User findById(Integer id);
+    UserDTO findById(Integer id);
 
-    User insert(NewUserDTO userRequest);
+    UserDTO insert(NewUserDTO userRequest);
 
     void delete(Integer id);
 
-    User update(Integer id, UserDTO updateUserRequest);
+    UserDTO update(Integer id, UserDTO updateUserRequest);
 
-    User findByEmail(String email);
+    UserDTO findByEmail(String email);
 
 }

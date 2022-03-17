@@ -43,24 +43,18 @@ public class UserService implements IUserService {
         }
     }
 
-    public List<User> findAll() {
-        return repository.findAll();
+    public List<UserDTO> findAll() {
+        return repository.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
     }
 
-    public User findById(Integer id) {
-
-        SpringSecurityUser authenticatedUser = UserService.getAuthenticatedUser();
-        if (authenticatedUser==null || !authenticatedUser.hasRole(UserRole.ADMIN) && !id.equals(authenticatedUser.getId())) {
-            throw new AuthorizationException("Access Denied");
-        }
-
-        Optional<User> user = repository.findById(id);
-        return user.orElseThrow(() -> new ResourceNotFoundException(id));
+    public UserDTO findById(Integer id) {
+        User user = getUserById(id);
+        return new UserDTO(user);
     }
 
-    public User findByEmail(String email) {
-        Optional<User> user = repository.findByEmail(email);
-        return user.orElseThrow(() -> new InvalidEmailException(email));
+    public UserDTO findByEmail(String email) {
+        User user = repository.findByEmail(email).orElseThrow(() -> new InvalidEmailException(email));
+        return new UserDTO(user);
     }
 
     public User insert(NewUserDTO userRequest) {
@@ -79,17 +73,27 @@ public class UserService implements IUserService {
         }
     }
 
-    public User update(Integer id, UserDTO updateUserRequest) {
+    public UserDTO update(Integer id, UserDTO updateUserRequest) {
         try {
-            User user = findById(id);
+            User user = getUserById(id);
             updateUser(user, updateUserRequest);
-            return repository.save(user);
+            user = repository.save(user);
+            return new UserDTO(user);
         } catch (EntityNotFoundException ex) {
             throw new ResourceNotFoundException(id);
         } catch (JpaObjectRetrievalFailureException ex) {
             System.out.println(ex.getClass().getSimpleName());
             throw new ResourceNotFoundException(id);
         }
+    }
+
+    private User getUserById(Integer id) {
+        SpringSecurityUser authenticatedUser = UserService.getAuthenticatedUser();
+        if (authenticatedUser==null || !authenticatedUser.hasRole(UserRole.ADMIN) && !id.equals(authenticatedUser.getId())) {
+            throw new AuthorizationException("Access Denied");
+        }
+
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     private void updateUser(User user, UserDTO updateUserRequest) {
